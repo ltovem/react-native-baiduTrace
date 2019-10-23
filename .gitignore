@@ -1,5 +1,5 @@
 ### Android template
-
+*.DS_Store
 # idea
 .idea
 # Built application files
