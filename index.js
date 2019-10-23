@@ -42,23 +42,23 @@ export default class BaiduTrace {
      * @param gatherInterval // 定位周期(单位:秒)
      * @param packInterval  // 打包回传周期(单位:秒)
      */
-    static setGatherAndPackageInterval(gatherInterval, packInterval) {
-        RNBaiduTrace.setGatherAndPackageInterval(gatherInterval, packInterval)
+    static setBaiduTraceInterval(gatherInterval, packInterval) {
+        RNBaiduTrace.setBaiduTraceInterval(gatherInterval, packInterval)
     }
 
     /**
      * 开启鹰眼服务，启动鹰眼service
      */
-    static startTrace() {
-        RNBaiduTrace.startTrace()
+    static startBaiduTrace() {
+        RNBaiduTrace.startBaiduTrace()
     }
 
     /**
      * 停止服务
      *  停止轨迹服务：此方法将同时停止轨迹服务和轨迹采集，完全结束鹰眼轨迹服务。若需再次启动轨迹追踪，需重新启动服务和轨迹采集
      */
-    static stopTrace() {
-        RNBaiduTrace.stopTrace()
+    static stopBaiduTrace() {
+        RNBaiduTrace.stopBaiduTrace()
     }
 
     /**
@@ -67,16 +67,16 @@ export default class BaiduTrace {
      *  所以建议startGather在public void onStartTraceCallback(int errorNo, String message)回调返回错误码为0后，
      *  再进行调用执行，否则会出现服务开启失败12002的错误。
      */
-    static startGather() {
-        RNBaiduTrace.startGather()
+    static startBaiduTraceGather() {
+        RNBaiduTrace.startBaiduTraceGather()
     }
 
     /**
      * 停止采集
      *  停止轨迹服务：此方法将同时停止轨迹服务和轨迹采集，完全结束鹰眼轨迹服务。若需再次启动轨迹追踪，需重新启动服务和轨迹采集
      */
-    static stopGather() {
-        RNBaiduTrace.stopGather()
+    static stopBaiduTraceGather() {
+        RNBaiduTrace.stopBaiduTraceGather()
     }
 
     /**
