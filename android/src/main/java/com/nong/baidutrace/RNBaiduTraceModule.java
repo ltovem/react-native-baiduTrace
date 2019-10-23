@@ -88,7 +88,7 @@ public class RNBaidutraceModule extends ReactContextBaseJavaModule {
      * @param packInterval 打包回传周期(单位:秒)
      */
     @ReactMethod
-    public void setGatherAndPackageInterval(Integer gatherInterval, Integer packInterval) {
+    public void setBaiduTraceInterval(Integer gatherInterval, Integer packInterval) {
         gather = gatherInterval;
         pack = packInterval;
         mTraceClient.setInterval(gather, pack);
@@ -148,7 +148,7 @@ public class RNBaidutraceModule extends ReactContextBaseJavaModule {
      * 启动鹰眼service
      */
     @ReactMethod
-    public void startTrace() {
+    public void startBaiduTrace() {
         mTraceClient.startTrace(mTrace, mTraceListener);
     }
 
@@ -157,7 +157,7 @@ public class RNBaidutraceModule extends ReactContextBaseJavaModule {
      * 停止轨迹服务：此方法将同时停止轨迹服务和轨迹采集，完全结束鹰眼轨迹服务。若需再次启动轨迹追踪，需重新启动服务和轨迹采集
      */
     @ReactMethod
-    public void stopTrace() {
+    public void stopBaiduTrace() {
         mTraceClient.stopTrace(mTrace, mTraceListener);
     }
 
@@ -168,7 +168,7 @@ public class RNBaidutraceModule extends ReactContextBaseJavaModule {
      *  再进行调用执行，否则会出现服务开启失败12002的错误。
      */
     @ReactMethod
-    public void startGather() {
+    public void startBaiduTraceGather() {
         mTraceClient.startGather(mTraceListener);
     }
 
@@ -177,7 +177,7 @@ public class RNBaidutraceModule extends ReactContextBaseJavaModule {
      *  停止轨迹服务：此方法将同时停止轨迹服务和轨迹采集，完全结束鹰眼轨迹服务。若需再次启动轨迹追踪，需重新启动服务和轨迹采集
      */
     @ReactMethod
-    public void stopGather() {
+    public void stopBaiduTraceGather() {
         mTraceClient.stopGather(mTraceListener);
     }
 
