@@ -65,11 +65,12 @@ public class RNBaidutraceModule extends ReactContextBaseJavaModule {
 
     /**
      * 初始化轨迹服务
-     * @param serviceId  // 轨迹服务ID
-     * @param entityName  // 设备标识
-     * @param isNeedObjectStorage   // 是否需要对象存储服务，默认为：false，关闭对象存储服务。
-     *                              注：鹰眼 Android SDK v3.0以上版本支持随轨迹上传图像等对象数据，
-     *                              若需使用此功能，该参数需设为 true，且需导入bos-android-sdk-1.0.2.jar。
+     *
+     * @param serviceId           // 轨迹服务ID
+     * @param entityName          // 设备标识
+     * @param isNeedObjectStorage // 是否需要对象存储服务，默认为：false，关闭对象存储服务。
+     *                            注：鹰眼 Android SDK v3.0以上版本支持随轨迹上传图像等对象数据，
+     *                            若需使用此功能，该参数需设为 true，且需导入bos-android-sdk-1.0.2.jar。
      */
     @ReactMethod
     public void initBaiduTrace(long serviceId, String entityName, boolean isNeedObjectStorage) {
@@ -81,7 +82,11 @@ public class RNBaidutraceModule extends ReactContextBaseJavaModule {
         }
     }
 
-    // 设置定位和打包周期
+    /**
+     * 设置定位和打包周期
+     * @param gatherInterval 定位周期(单位:秒)
+     * @param packInterval 打包回传周期(单位:秒)
+     */
     @ReactMethod
     public void setGatherAndPackageInterval(Integer gatherInterval, Integer packInterval) {
         gather = gatherInterval;
@@ -139,32 +144,40 @@ public class RNBaidutraceModule extends ReactContextBaseJavaModule {
         }
     };
 
+    /**
+     * 启动鹰眼service
+     */
     @ReactMethod
     public void startTrace() {
-        // 启动鹰眼 service
         mTraceClient.startTrace(mTrace, mTraceListener);
     }
 
+    /**
+     * 停止服务
+     * 停止轨迹服务：此方法将同时停止轨迹服务和轨迹采集，完全结束鹰眼轨迹服务。若需再次启动轨迹追踪，需重新启动服务和轨迹采集
+     */
     @ReactMethod
     public void stopTrace() {
-        // 停止服务
-        // 停止轨迹服务：此方法将同时停止轨迹服务和轨迹采集，完全结束鹰眼轨迹服务。若需再次启动轨迹追踪，需重新启动服务和轨迹采集
         mTraceClient.stopTrace(mTrace, mTraceListener);
     }
 
+    /**
+     * 开启采集
+     *  注意：因为startTrace与startGather是异步执行，且startGather依赖startTrace执行开启服务成功，
+     *  所以建议startGather在public void onStartTraceCallback(int errorNo, String message)回调返回错误码为0后，
+     *  再进行调用执行，否则会出现服务开启失败12002的错误。
+     */
     @ReactMethod
     public void startGather() {
-        // 开启采集
-        // 注意：因为startTrace与startGather是异步执行，且startGather依赖startTrace执行开启服务成功，
-        // 所以建议startGather在public void onStartTraceCallback(int errorNo, String message)回调返回错误码为0后，
-        // 再进行调用执行，否则会出现服务开启失败12002的错误。
         mTraceClient.startGather(mTraceListener);
     }
 
+    /**
+     * 停止采集
+     *  停止轨迹服务：此方法将同时停止轨迹服务和轨迹采集，完全结束鹰眼轨迹服务。若需再次启动轨迹追踪，需重新启动服务和轨迹采集
+     */
     @ReactMethod
     public void stopGather() {
-        // 停止采集
-        // 停止轨迹服务：此方法将同时停止轨迹服务和轨迹采集，完全结束鹰眼轨迹服务。若需再次启动轨迹追踪，需重新启动服务和轨迹采集
         mTraceClient.stopGather(mTraceListener);
     }
 
@@ -195,9 +208,6 @@ public class RNBaidutraceModule extends ReactContextBaseJavaModule {
         // 查询历史轨迹
         mTraceClient.queryHistoryTrack(historyTrackRequest, mTrackListener);
     }
-
-
-
 
 
 }
