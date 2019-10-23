@@ -64,7 +64,7 @@ public class RNBaidutraceModule extends ReactContextBaseJavaModule {
     }
 
     /**
-     *
+     * 初始化轨迹服务
      * @param serviceId  // 轨迹服务ID
      * @param entityName  // 设备标识
      * @param isNeedObjectStorage   // 是否需要对象存储服务，默认为：false，关闭对象存储服务。
@@ -72,7 +72,7 @@ public class RNBaidutraceModule extends ReactContextBaseJavaModule {
      *                              若需使用此功能，该参数需设为 true，且需导入bos-android-sdk-1.0.2.jar。
      */
     @ReactMethod
-    public void init(long serviceId, String entityName, boolean isNeedObjectStorage) {
+    public void initBaiduTrace(long serviceId, String entityName, boolean isNeedObjectStorage) {
         // 初始化轨迹服务
         this.mTrace = new Trace(serviceId, entityName, isNeedObjectStorage);
         // 初始化轨迹服务客户端
@@ -141,8 +141,15 @@ public class RNBaidutraceModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void startTrace() {
-        // 开启鹰眼服务，启动鹰眼 service
+        // 启动鹰眼 service
         mTraceClient.startTrace(mTrace, mTraceListener);
+    }
+
+    @ReactMethod
+    public void stopTrace() {
+        // 停止服务
+        // 停止轨迹服务：此方法将同时停止轨迹服务和轨迹采集，完全结束鹰眼轨迹服务。若需再次启动轨迹追踪，需重新启动服务和轨迹采集
+        mTraceClient.stopTrace(mTrace, mTraceListener);
     }
 
     @ReactMethod
@@ -155,13 +162,6 @@ public class RNBaidutraceModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void stopTrace() {
-        // 停止服务
-        // 停止轨迹服务：此方法将同时停止轨迹服务和轨迹采集，完全结束鹰眼轨迹服务。若需再次启动轨迹追踪，需重新启动服务和轨迹采集
-        mTraceClient.stopTrace(mTrace, mTraceListener);
-    }
-
-    @ReactMethod
     public void stopGather() {
         // 停止采集
         // 停止轨迹服务：此方法将同时停止轨迹服务和轨迹采集，完全结束鹰眼轨迹服务。若需再次启动轨迹追踪，需重新启动服务和轨迹采集
@@ -169,7 +169,7 @@ public class RNBaidutraceModule extends ReactContextBaseJavaModule {
     }
 
     /**
-     * 查询轨迹
+     * 查询历史轨迹
      *
      * @param tag        //int 请求标识 1    //是否返回精简的结果（0 : 将只返回经纬度，1 : 将返回经纬度及其他属性信息）
      * @param serviceId  //int 轨迹服务ID
