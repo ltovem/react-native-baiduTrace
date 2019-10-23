@@ -27,6 +27,12 @@ android {
     lintOptions {
         abortOnError false
     }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 repositories {
@@ -36,5 +42,6 @@ repositories {
 }
 
 dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.facebook.react:react-native:+'
 }
