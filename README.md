@@ -3,11 +3,11 @@
 
 ## Getting started
 
-`$ npm install baidu-trace --save`
+`$ npm install react-native-baidu-trace --save`
 
 ### Mostly automatic installation
 
-`$ react-native link baidu-trace`
+`$ react-native link react-native-baidu-trace`
 
 ### Manual installation
 
@@ -33,6 +33,12 @@
   	```
       compile project(':react-native-baidu-trace')
   	```
+4. 设置AccessKey
+   在Mainfest.xml正确设置AccessKey（AK），如果设置错误将会导致鹰眼服务无法正常使用。
+   需在Application标签中加入以下代码，并填入开发者自己的 Android 类型 AK。
+   <meta-data             
+   android:name="com.baidu.lbsapi.API_KEY"             
+   android:value="AK" />       //key:开发者申请的Key
 
 
 ## Usage
@@ -42,4 +48,3 @@ import RNBaiduTrace from 'react-native-baidu-trace';
 // TODO: What to do with the module?
 RNBaiduTrace;
 ```
-  
