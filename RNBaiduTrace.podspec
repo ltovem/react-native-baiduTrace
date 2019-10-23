@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.author             = { "author" => "dev.ltove.com" }
   s.platform     = :ios, "9.0"
   s.source       = { :git => "https://github.com/ltovem/react-native-baiduTrace.git", :tag => "master" }
-  s.source_files  = "ios/**/*.{h,m}"
+  s.source_files  = "ios/RNBaiduTraceModule/*.{h,m}"
 
   s.preserve_paths  = "*.js"
   s.vendored_libraries = "ios/RNBaiduTraceModule/*.a"
@@ -24,4 +24,3 @@ Pod::Spec.new do |s|
 
 end
 
-  
