@@ -1,4 +1,6 @@
 rootProject.name = 'example'
+include ':baidu-trace'
+project(':baidu-trace').projectDir = new File(rootProject.projectDir, '../../android')
 include ':react-native-baidu-trace'
 project(':react-native-baidu-trace').projectDir = new File(rootProject.projectDir, '../../android')
 apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
