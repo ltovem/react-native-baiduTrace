@@ -3,11 +3,11 @@
 
 ## Getting started
 
-`$ npm install react-native-baidu-trace --save`
+`$ npm install baidu-trace --save`
 
 ### Mostly automatic installation
 
-`$ react-native link react-native-baidu-trace`
+`$ react-native link baidu-trace`
 
 ### Manual installation
 
