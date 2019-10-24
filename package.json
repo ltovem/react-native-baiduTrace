@@ -1,6 +1,6 @@
 {
   "name": "baidu-trace",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React Native JPush component for Android and iOS",
   "homepage": "https://github.com/ltovem/react-native-baiduTrace",
   "main": "index.js",
