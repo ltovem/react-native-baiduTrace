@@ -43,7 +43,7 @@ repositories {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 //    compile 'com.facebook.react:react-native:+'
-    compile('com.facebook.react:react-native:+') {
+    implementation('com.facebook.react:react-native:+') {
         exclude group: 'okhttp'
         exclude group: 'okio'
     }
