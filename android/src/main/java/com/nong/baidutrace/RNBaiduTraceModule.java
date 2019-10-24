@@ -20,7 +20,7 @@ import com.facebook.react.modules.core.DeviceEventManagerModule;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RNBaidutraceModule extends ReactContextBaseJavaModule {
+public class RNBaiduTraceModule extends ReactContextBaseJavaModule {
     private static final String DURATION_SHORT_KEY = "SHORT";
     private static final String DURATION_LONG_KEY = "LONG";
     private static ReactApplicationContext reactContext;
@@ -40,7 +40,7 @@ public class RNBaidutraceModule extends ReactContextBaseJavaModule {
     // 打包回传周期(单位:秒)
     private int pack = 10;
 
-    public RNBaidutraceModule(ReactApplicationContext reactContext) {
+    public RNBaiduTraceModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
     }
@@ -106,37 +106,37 @@ public class RNBaidutraceModule extends ReactContextBaseJavaModule {
         // 开启服务回调
         @Override
         public void onStartTraceCallback(int status, String message) {
-            RNBaidutraceModule.sendEvent(ON_START_TRACE, status, message);
+            RNBaiduTraceModule.sendEvent(ON_START_TRACE, status, message);
         }
 
         // 停止服务回调
         @Override
         public void onStopTraceCallback(int status, String message) {
-            RNBaidutraceModule.sendEvent(ON_STOP_TRACE, status, message);
+            RNBaiduTraceModule.sendEvent(ON_STOP_TRACE, status, message);
         }
 
         // 开启采集回调
         @Override
         public void onStartGatherCallback(int status, String message) {
-            RNBaidutraceModule.sendEvent(ON_START_GATHER, status, message);
+            RNBaiduTraceModule.sendEvent(ON_START_GATHER, status, message);
         }
 
         // 停止采集回调
         @Override
         public void onStopGatherCallback(int status, String message) {
-            RNBaidutraceModule.sendEvent(ON_STOP_GATHER, status, message);
+            RNBaiduTraceModule.sendEvent(ON_STOP_GATHER, status, message);
         }
 
         // 推送回调
         @Override
         public void onPushCallback(byte messageNo, PushMessage message) {
             int msgNo = Integer.valueOf(messageNo);
-            RNBaidutraceModule.sendEvent(ON_PUSH, msgNo, message.getMessage());
+            RNBaiduTraceModule.sendEvent(ON_PUSH, msgNo, message.getMessage());
         }
 
         @Override
         public void onBindServiceCallback(int status, String message) {
-            RNBaidutraceModule.sendEvent(ON_BIND_SERVICE, status, message);
+            RNBaiduTraceModule.sendEvent(ON_BIND_SERVICE, status, message);
         }
 
         @Override
@@ -184,8 +184,8 @@ public class RNBaidutraceModule extends ReactContextBaseJavaModule {
     /**
      * 查询历史轨迹
      *
-     * @param tag        //int 请求标识 1    //是否返回精简的结果（0 : 将只返回经纬度，1 : 将返回经纬度及其他属性信息）
-     * @param serviceId  //int 轨迹服务ID
+     * @param tag        //int 请求标识 1    //待验证：是否返回精简的结果（0 : 将只返回经纬度，1 : 将返回经纬度及其他属性信息）
+     * @param serviceId  //long 轨迹服务ID
      * @param entityName // 设备标识
      * @param startTime  //  设置轨迹查询起止时间--开始时间(单位：秒)
      * @param endTime    // 设置轨迹查询起止时间--结束时间(单位：秒)
@@ -202,7 +202,7 @@ public class RNBaidutraceModule extends ReactContextBaseJavaModule {
             // 历史轨迹回调
             @Override
             public void onHistoryTrackCallback(HistoryTrackResponse response) {
-                RNBaidutraceModule.sendEvent(ON_HISTORY_TRACK, response.getStatus(), response.getMessage());
+                RNBaiduTraceModule.sendEvent(ON_HISTORY_TRACK, response.getStatus(), response.getMessage());
             }
         };
         // 查询历史轨迹

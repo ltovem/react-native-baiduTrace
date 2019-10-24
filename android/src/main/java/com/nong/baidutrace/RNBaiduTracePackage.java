@@ -11,10 +11,10 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
 import com.facebook.react.bridge.JavaScriptModule;
 
-public class RNBaidutracePackage implements ReactPackage {
+public class RNBaiduTracePackage implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-      return Arrays.<NativeModule>asList(new RNBaidutraceModule(reactContext));
+      return Arrays.<NativeModule>asList(new RNBaiduTraceModule(reactContext));
     }
 
     // Deprecated from RN 0.47
