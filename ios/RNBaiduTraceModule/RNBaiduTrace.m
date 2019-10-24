@@ -3,6 +3,10 @@
 
 #import <BaiduTraceSDK/BaiduTraceSDK.h>
 
+@interface RNBaiduTrace ()
+
+@end
+
 @implementation RNBaiduTrace
 
 - (dispatch_queue_t)methodQueue
@@ -20,9 +24,10 @@ RCT_EXPORT_MODULE()
 *                              注：鹰眼 Android SDK v3.0以上版本支持随轨迹上传图像等对象数据，
 *                              若需使用此功能，该参数需设为 true，且需导入bos-android-sdk-1.0.2.jar。
 */
-RCT_EXPORT_METHOD(initBaiduTrace:(NSString *)serviceId
-                  entityName:(NSString *)entityName isNeedObjectStorage:(BOOL)isNeedObjectStorage){
+RCT_EXPORT_METHOD(initBaiduTrace:(NSUInteger )serviceId ak:(NSString *)ak entityName:(NSString *)entityName bundleId:(NSString *)bundleId keepAlive:(BOOL)keepAlive){
     
+    BTKServiceOption *sop = [[BTKServiceOption alloc] initWithAK:ak mcode:bundleId serviceID:serviceId keepAlive:keepAlive];
+    [[BTKAction sharedInstance] initInfo:sop];
 }
 
 @end
