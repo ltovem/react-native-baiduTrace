@@ -32,12 +32,12 @@ export default class BaiduTrace {
      * @param isNeedObjectStorageOrIOSKeepAlive   Android:// 是否需要对象存储服务，默认为：false，关闭对象存储服务。
      *                                          注：鹰眼 Android SDK v3.0以上版本支持随轨迹上传图像等对象数据，
      *                                          若需使用此功能，该参数需设为 true，且需导入bos-android-sdk-1.0.2.jar。
-     *                                          IOS :同 keepAlive:false  后台保活参数
-     * @param packageName  //IOS-参数 包名
-     * @param ak  //IOS-参数
+     *                                          iOS :同 keepAlive:false  后台保活参数
+     * @param bundleId  //iOS only  require
+     * @param ak  //iOS only require
 
      */
-    static initBaiduTrace(serviceId, entityName, isNeedObjectStorageOrIOSKeepAlive = false, packageName = "", ak = "") {
+    static initBaiduTrace(serviceId, entityName, isNeedObjectStorageOrIOSKeepAlive = false, bundleId = "", ak = "") {
         if (Platform.OS === "android") {
             RNBaiduTrace.initBaiduTrace(serviceId, entityName, isNeedObjectStorageOrIOSKeepAlive)
         } else {
