@@ -41,7 +41,7 @@ export default class BaiduTrace {
         if (Platform.OS === "android") {
             RNBaiduTrace.initBaiduTrace(serviceId, entityName, isNeedObjectStorageOrIOSKeepAlive)
         } else {
-            RNBaiduTrace.initBaiduTrace(serviceId, isNeedObjectStorageOrIOSKeepAlive, packageName, ak)
+            RNBaiduTrace.initBaiduTrace(serviceId,ak,entityName, isNeedObjectStorageOrIOSKeepAlive, packageName)
         }
     }
 
