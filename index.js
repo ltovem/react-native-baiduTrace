@@ -27,14 +27,22 @@ export default class BaiduTrace {
 
     /**
      * 初始化百度鹰眼轨迹服务
-     * @param serviceId  // 轨迹服务ID string
-     * @param entityName  // 设备标识 string
-     * @param isNeedObjectStorage   // 是否需要对象存储服务，默认为：false，关闭对象存储服务。
-     *                              注：鹰眼 Android SDK v3.0以上版本支持随轨迹上传图像等对象数据，
-     *                              若需使用此功能，该参数需设为 true，且需导入bos-android-sdk-1.0.2.jar。
+     * @param serviceId  // 轨迹服务ID
+     * @param entityName  // 设备标识
+     * @param isNeedObjectStorageOrIOSKeepAlive   Android:// 是否需要对象存储服务，默认为：false，关闭对象存储服务。
+     *                                          注：鹰眼 Android SDK v3.0以上版本支持随轨迹上传图像等对象数据，
+     *                                          若需使用此功能，该参数需设为 true，且需导入bos-android-sdk-1.0.2.jar。
+     *                                          IOS :同 keepAlive:false  后台保活参数
+     * @param packageName  //IOS-参数 包名
+     * @param ak  //IOS-参数
+
      */
-    static initBaiduTrace(serviceId, entityName, isNeedObjectStorage) {
-        RNBaiduTrace.initBaiduTrace(serviceId, entityName, isNeedObjectStorage)
+    static initBaiduTrace(serviceId, entityName, isNeedObjectStorageOrIOSKeepAlive = false, packageName = "", ak = "") {
+        if (Platform.OS === "android") {
+            RNBaiduTrace.initBaiduTrace(serviceId, entityName, isNeedObjectStorageOrIOSKeepAlive)
+        } else {
+            RNBaiduTrace.initBaiduTrace(serviceId, isNeedObjectStorageOrIOSKeepAlive, packageName, ak)
+        }
     }
 
     /**
