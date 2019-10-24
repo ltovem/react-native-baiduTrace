@@ -16,6 +16,7 @@ Pod::Spec.new do |s|
 
   s.preserve_paths  = "*.js"
   s.vendored_libraries = "ios/RNBaiduTraceModule/*.a"
+  s.vendored_frameworks = "ios/RNBaiduTraceModule/*.framework"
   s.requires_arc = true
 
 

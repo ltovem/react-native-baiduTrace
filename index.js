@@ -27,8 +27,8 @@ export default class BaiduTrace {
 
     /**
      * 初始化百度鹰眼轨迹服务
-     * @param serviceId  // 轨迹服务ID
-     * @param entityName  // 设备标识
+     * @param serviceId  // 轨迹服务ID string
+     * @param entityName  // 设备标识 string
      * @param isNeedObjectStorage   // 是否需要对象存储服务，默认为：false，关闭对象存储服务。
      *                              注：鹰眼 Android SDK v3.0以上版本支持随轨迹上传图像等对象数据，
      *                              若需使用此功能，该参数需设为 true，且需导入bos-android-sdk-1.0.2.jar。
