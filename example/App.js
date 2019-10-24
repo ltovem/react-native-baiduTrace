@@ -39,6 +39,12 @@ class App extends React.Component{
               <Text>初始化服务</Text>
               <View style = {{height:1,backgroundColor:'gray',position: 'absolute',left:0,right: 0,bottom:0}}/>
             </TouchableOpacity>
+              <TouchableOpacity
+                  onPress = {()=>this._startTrace()}
+                  style = {{backgroundColor:'#f5a',padding: 20}}>
+                  <Text>开启服务</Text>
+                  <View style = {{height:1,backgroundColor:'gray',position: 'absolute',left:0,right: 0,bottom:0}}/>
+              </TouchableOpacity>
 
           </SafeAreaView>
         </View>
@@ -49,6 +55,9 @@ class App extends React.Component{
    _startServer(){
     console.log('start server');
      BaiduTrace.initBaiduTrace(131252,'rntest',false,'com.nongguanjia.nsb','DrHMfhPNdHBtdWgW5uW7Ou2P');
+  }
+  _startTrace(){
+      BaiduTrace.startBaiduTrace();
   }
 };
 

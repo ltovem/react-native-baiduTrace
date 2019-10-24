@@ -107,7 +107,7 @@ DEPENDENCIES:
   - React-RCTText (from `../node_modules/react-native/Libraries/Text`)
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-RCTWebSocket (from `../node_modules/react-native/Libraries/WebSocket`)
-  - RNBaiduTrace (from `../..`)
+  - RNBaiduTrace (from `../node_modules/baidu-trace`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -158,7 +158,7 @@ EXTERNAL SOURCES:
   React-RCTWebSocket:
     :path: "../node_modules/react-native/Libraries/WebSocket"
   RNBaiduTrace:
-    :path: "../.."
+    :path: "../node_modules/baidu-trace"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
