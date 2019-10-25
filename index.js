@@ -261,6 +261,7 @@ export default class BaiduTrace {
                 callback(result)
             })
     }
+
     /**
      设置缓存占用的最大磁盘空间的结果的回调方法
      @param {Function} cb = (Object）=> {"error":BTKSetCacheMaxSizeErrorCode}
