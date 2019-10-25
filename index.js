@@ -14,14 +14,15 @@ const listeners = {}
 // const TagAliasEvent           = 'TagAliasEvent'           //TagAlias事件
 // const MobileNumberEvent       = 'MobileNumberEvent'       //电话号码事件
 
-const ON_START_TRACE = "BaiduTrace_onStartTrace"; // 开启服务回调
-const ON_STOP_TRACE = "BaiduTrace_onStopTrace"; // 停止服务回调
-const ON_START_GATHER = "BaiduTrace_onStartGather";// 开启采集回调
-const ON_STOP_GATHER = "BaiduTrace_onStopGather";// 停止采集回调
-const ON_BIND_SERVICE = "BaiduTrace_onBindService";
-const ON_PUSH = "BaiduTrace_onPush"; // 推送回调
-const ON_HISTORY_TRACK = "BaiduTrace_onHistoryTrack"; //查询历史轨迹回调
-
+const onStartServer = "onStartService"; // 开启轨迹服务的回调方法
+const onStopService = "onStopService"; // 停止轨迹服务的回调方法
+const onStartGather = "onStartGather";// 开始采集的回调方法
+const onStopGather = "onStopGather";// 停止采集的回调方法
+const onGetPushMessage = "onGetPushMessage"; //收到推送消息的回调方法
+const onGetCustomDataResult = "onGetCustomDataResult"; // 用户自定义信息设置结果的回调方法
+const onChangeGatherAndPackIntervals = "onChangeGatherAndPackIntervals"; //更改采集和打包上传周期的结果的回调方法
+const onSetCacheMaxSize = "onSetCacheMaxSize";// 设置缓存占用的最大磁盘空间的结果的回调方法
+const onRequestAlwaysLocationAuthorization = "onRequestAlwaysLocationAuthorization"; //请求后台定位权限的回调方法
 
 export default class BaiduTrace {
 
@@ -100,5 +101,23 @@ export default class BaiduTrace {
         RNBaiduTrace.getHistoryTrack(tag, serviceId, entityName, startTime, endTime)
     }
 
+
+
+
+    //**********************************************delegate call back*********************************************************
+
+    /**
+     开启轨迹服务的回调方法
+
+
+
+     @param {Function} cb = (Object）=> {}
+     */
+    static onStartService(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onStartServer, result => {
+                callback(result)
+            })
+    }
 
 }

@@ -3,6 +3,18 @@
 
 #import <BaiduTraceSDK/BaiduTraceSDK.h>
 
+
+#define  _onStartServer @"onStartService" // 开启轨迹服务的回调方法
+#define  _onStopService @"onStopService" // 停止轨迹服务的回调方法
+#define  _onStartGather @"onStartGather"// 开始采集的回调方法
+#define  _onStopGather @"onStopGather"// 停止采集的回调方法
+#define  _onGetPushMessage @"onGetPushMessage" //收到推送消息的回调方法
+#define  _onGetCustomDataResult @"onGetCustomDataResult" // 用户自定义信息设置结果的回调方法
+#define  _onChangeGatherAndPackIntervals @"onChangeGatherAndPackIntervals" //更改采集和打包上传周期的结果的回调方法
+#define  _onSetCacheMaxSize @"onSetCacheMaxSize"// 设置缓存占用的最大磁盘空间的结果的回调方法
+#define  _onRequestAlwaysLocationAuthorization @"onRequestAlwaysLocationAuthorization" //请求后台定位权限的回调方法
+#define Error @"error"
+
 @interface RNBaiduTrace ()<BTKTraceDelegate>
 @property (nonatomic,copy)NSString *entryName;
 @end
@@ -13,6 +25,11 @@
 {
     return dispatch_get_main_queue();
     
+}
+
++ (BOOL)requiresMainQueueSetup
+{
+    return YES;
 }
 RCT_EXPORT_MODULE()
 
@@ -72,6 +89,7 @@ RCT_EXPORT_METHOD(stopBaiduTraceGather){
  */
 -(void)onStartService:(BTKServiceErrorCode) error{
     NSLog(@"开启服务结果为 %lu",(unsigned long)error);
+    [self sendEventWithEvent:_onStartServer data:@{Error:@(error)}];
 }
 /**
  停止轨迹服务的回调方法
@@ -152,6 +170,21 @@ RCT_EXPORT_METHOD(stopBaiduTraceGather){
 */
 -(void)onRequestAlwaysLocationAuthorization:(CLLocationManager *) locationManager{
     
+}
+
+
+
+- (void)sendEventWithEvent:(NSString *)event data:(NSDictionary *)responseData{
+    [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
+        method:@"emit"
+          args:@[event, responseData]
+    completion:NULL];
+}
+
+//事件处理
+- (NSArray<NSString *> *)supportedEvents
+{
+    return @[_onStartServer];
 }
 @end
   

@@ -25,7 +25,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import BaiduTrace from 'baidu-trace';
+import BaiduTrace from './app/index';
 class App extends React.Component{
 
   render(){
@@ -36,7 +36,7 @@ class App extends React.Component{
             <TouchableOpacity
                 onPress = {()=>this._startServer()}
                 style = {{backgroundColor:'#f5a',padding: 20}}>
-              <Text>初始化服务</Text>
+              <Text>初始s化服务</Text>
               <View style = {{height:1,backgroundColor:'gray',position: 'absolute',left:0,right: 0,bottom:0}}/>
             </TouchableOpacity>
               <TouchableOpacity
@@ -58,6 +58,13 @@ class App extends React.Component{
   }
   _startTrace(){
       BaiduTrace.startBaiduTrace();
+  }
+  componentDidMount() {
+      BaiduTrace.onStartService(result=>{
+
+          console.log(result);
+          console.log('rn end');
+      })
   }
 };
 
