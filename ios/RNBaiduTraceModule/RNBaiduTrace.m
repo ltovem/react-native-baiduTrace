@@ -97,7 +97,7 @@ RCT_EXPORT_METHOD(stopBaiduTraceGather){
  @param error 停止轨迹服务的结果
  */
 -(void)onStopService:(BTKServiceErrorCode) error{
-    
+    [self sendEventWithEvent:_onStopService data:@{Error:@(error)}];
 }
 
 /**
@@ -106,7 +106,7 @@ RCT_EXPORT_METHOD(stopBaiduTraceGather){
  @param error 开始采集的操作结果
  */
 -(void)onStartGather:(BTKGatherErrorCode) error{
-    
+    [self sendEventWithEvent:_onStartGather data:@{Error:@(error)}];
 }
 /**
  停止采集的回调方法
@@ -114,7 +114,7 @@ RCT_EXPORT_METHOD(stopBaiduTraceGather){
  @param error 停止采集的操作结果
  */
 -(void)onStopGather:(BTKGatherErrorCode) error{
-    
+    [self sendEventWithEvent:_onStopGather data:@{Error:@(error)}];
 }
 
 /**
@@ -142,7 +142,7 @@ RCT_EXPORT_METHOD(stopBaiduTraceGather){
  @param error 自定义信息的设置结果
  */
 -(void)onGetCustomDataResult:(BTKGetCustomDataErrorCode) error{
-    
+    [self sendEventWithEvent:_onGetCustomDataResult data:@{Error:@(error)}];
 }
 
 /**
@@ -151,7 +151,7 @@ RCT_EXPORT_METHOD(stopBaiduTraceGather){
  @param error 更改周期的结果
  */
 -(void)onChangeGatherAndPackIntervals:(BTKChangeIntervalErrorCode) error{
-    
+    [self sendEventWithEvent:_onChangeGatherAndPackIntervals data:@{Error:@(error)}];
 }
 
 /**
@@ -160,7 +160,7 @@ RCT_EXPORT_METHOD(stopBaiduTraceGather){
  @param error 设置的结果
  */
 -(void)onSetCacheMaxSize:(BTKSetCacheMaxSizeErrorCode) error{
-    
+    [self sendEventWithEvent:_onSetCacheMaxSize data:@{Error:@(error)}];
 }
 
 /**
@@ -184,7 +184,7 @@ RCT_EXPORT_METHOD(stopBaiduTraceGather){
 //事件处理
 - (NSArray<NSString *> *)supportedEvents
 {
-    return @[_onStartServer];
+    return @[_onStartServer,_onStopService,_onStartGather,_onStopGather,_onGetCustomDataResult,_onChangeGatherAndPackIntervals,_onSetCacheMaxSize];
 }
 @end
   
