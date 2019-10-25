@@ -277,6 +277,7 @@ export default class BaiduTrace {
     /**
      * 查询历史轨迹回调
      * @param callback
+     * android 返回类型： 例如 {message: "鉴权失败", status: 14004}
      */
     static onHistoryTrack(callback){
         listeners[callback] = DeviceEventEmitter.addListener(
