@@ -236,6 +236,16 @@ export default class BaiduTrace {
                 callback(result)
             })
     }
+    /**
+     收到推送消息的回调方法
+     @param {Function} cb = (Object）=> {"error":BTKGatherErrorCode}
+     */
+    static onGetPushMessage(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onGetPushMessage, result => {
+                callback(result)
+            })
+    }
 
     /**
      用户自定义信息设置结果的回调方法

@@ -155,6 +155,7 @@ RCT_EXPORT_METHOD(stopBaiduTraceGather){
  @param error 更改周期的结果
  */
 -(void)onChangeGatherAndPackIntervals:(BTKChangeIntervalErrorCode) error{
+    
     [self sendEventWithEvent:_onChangeGatherAndPackIntervals data:@{Error:@(error)}];
 }
 

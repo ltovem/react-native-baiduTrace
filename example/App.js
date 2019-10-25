@@ -46,11 +46,14 @@ class App extends React.Component{
         <View style = {{flex:1,justifyContent:'center'}}>
           <StatusBar barStyle="dark-content" />
           <SafeAreaView>
-              {this._renderWith('初始化服务',()=>this._startServer())}
-              {this._renderWith('开启鹰眼服务',()=>this._startTrace())}
-              {this._renderWith('停止鹰眼服务',()=>this._stopTrace())}
-              {this._renderWith('开启采集服务',()=>this._startTraceGather())}
-              {this._renderWith('停止采集服务',()=>this._stopTraceGather())}
+              <ScrollView style = {{width:'100%',height: '100%'}}>
+                  {this._renderWith('初始化服务',()=>this._startServer())}
+                  {this._renderWith('开启鹰眼服务',()=>this._startTrace())}
+                  {this._renderWith('停止鹰眼服务',()=>this._stopTrace())}
+                  {this._renderWith('开启采集服务',()=>this._startTraceGather())}
+                  {this._renderWith('停止采集服务',()=>this._stopTraceGather())}
+              </ScrollView>
+
           </SafeAreaView>
         </View>
     );
