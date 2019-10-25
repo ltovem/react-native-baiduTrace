@@ -107,8 +107,34 @@ const BTKChangeIntervalErrorCode = {
  */
 const BTKSetCacheMaxSizeErrorCode = {
     BTK_SET_CACHE_MAX_SIZE_NO_ERROR : 0,
-        BTK_SET_CACHE_MAX_SIZE_INTERNAL_ERROR : 1,
-        BTK_SET_CACHE_MAX_SIZE_PARAM_ERROR : 2,
+    BTK_SET_CACHE_MAX_SIZE_INTERNAL_ERROR : 1,
+    BTK_SET_CACHE_MAX_SIZE_PARAM_ERROR : 2,
+};
+/**
+ 查询纠偏后的实时位置时，指定被监控对象的交通方式
+
+ - BTK_TRACK_PROCESS_OPTION_TRANSPORT_MODE_DRIVING: 自动（由鹰眼自动识别交通方式）
+ - BTK_TRACK_PROCESS_OPTION_TRANSPORT_MODE_DRIVING: 驾车
+ - BTK_TRACK_PROCESS_OPTION_TRANSPORT_MODE_RIDING: 骑行
+ - BTK_TRACK_PROCESS_OPTION_TRANSPORT_MODE_WALKING: 步行
+ */
+const BTKTrackProcessOptionTransportMode = {
+    BTK_TRACK_PROCESS_OPTION_TRANSPORT_MODE_AUTO : 0,
+    BTK_TRACK_PROCESS_OPTION_TRANSPORT_MODE_DRIVING : 1,
+    BTK_TRACK_PROCESS_OPTION_TRANSPORT_MODE_RIDING : 2,
+    BTK_TRACK_PROCESS_OPTION_TRANSPORT_MODE_WALKING : 3,
+};
+/**
+ 坐标类型
+
+ - BTK_COORDTYPE_WGS84: WGS84：为一种大地坐标系，也是目前广泛使用的GPS全球卫星定位系统使用的坐标系
+ - BTK_COORDTYPE_GCJ02: GCJ02：表示经过国测局加密的坐标
+ - BTK_COORDTYPE_BD09LL: 百度经纬度坐标系
+ */
+const BTKCoordType = {
+    BTK_COORDTYPE_WGS84 : 1,
+    BTK_COORDTYPE_GCJ02 : 2,
+    BTK_COORDTYPE_BD09LL : 3,
 };
 export default class BaiduTrace {
 
@@ -188,6 +214,30 @@ export default class BaiduTrace {
 
     }
 
+    /**
+     构造方法
+
+     @param entityName 要查询的entity终端实体的名称
+     @param startTime 开始时间
+     @param endTime 结束时间
+     @param stayTime 停留时间
+     @param stayRadius 停留半径
+     @param processOption 纠偏选项
+     @param outputCoordType 返回的坐标类型
+     @param serviceID 轨迹服务的ID
+     @param tag 请求标志
+     @return 请求对象
+     */
+
+    /**
+     停留点分析
+
+     @param request 请求对象
+     @param delegate 操作结果的回调对象
+     */
+    static analyzeStayPoint(entityName,startTime,endTime,stayTime,stayRadius,processOption,outputCoordType,serviceID,tag){
+        RNBaiduTrace.analyzeStayPoint(entityName,startTime,endTime,stayTime,stayRadius,processOption,outputCoordType,serviceID,tag);
+    }
 
     //**********************************************delegate call back*********************************************************
 
@@ -285,4 +335,29 @@ export default class BaiduTrace {
             })
     }
 
+//***************************
+    /**
+     *
+     * @param denoise   纠偏时是否需要去噪，TRUE代表去噪
+     * @param vacuate   纠偏时是否需要抽稀，TRUE代表抽稀。
+                        该选项只有在查询行程信息的请求BTKQueryHistoryTrackRequest中有效。
+                        在BTKQueryTrackLatestPointRequest和BTKQueryTrackDistanceRequest中的processOption选项中设置此属性没有效果。
+     * @param mapMatch  纠偏时是否需要绑路，TRUE代表绑路
+     * @param radiusThreshold   纠偏时的定位精度过滤阀值，用于过滤掉定位精度较差的轨迹点。
+                                0代表不过滤，100代表过滤掉定位精度大于100米的轨迹点。
+                                例如：若只需保留 GPS 定位点，则建议设为：20；若需保留 GPS 和 Wi-Fi 定位点，去除基站定位点，则建议设为：100
+     * @param transportMode     纠偏时的交通方式，鹰眼将根据不同交通工具选择不同的纠偏策略 BTKTrackProcessOptionTransportMode
+     * @returns {{}}
+     */
+    static getBTKQueryTrackProcessOption(denoise = false,vacuate = false,mapMatch = false,radiusThreshold = 0,transportMode = BTKTrackProcessOptionTransportMode.BTK_TRACK_PROCESS_OPTION_TRANSPORT_MODE_AUTO){
+        return {
+            denoise:denoise,
+            vacuate:vacuate,
+            mapMatch:mapMatch,
+            radiusThreshold:radiusThreshold,
+            transportMode:transportMode,
+        }
+    }
 }
+
+export {BTKTrackProcessOptionTransportMode,BTKCoordType}

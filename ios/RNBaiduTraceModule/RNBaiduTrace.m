@@ -83,6 +83,60 @@ RCT_EXPORT_METHOD(stopBaiduTraceGather){
     [[BTKAction sharedInstance] stopGather:self];
 }
 
+/**
+ 构造方法
+
+ @param entityName 要查询的entity终端实体的名称
+ @param startTime 开始时间
+ @param endTime 结束时间
+ @param stayTime 停留时间
+ @param stayRadius 停留半径
+ @param processOption 纠偏选项
+ @param outputCoordType 返回的坐标类型
+ @param serviceID 轨迹服务的ID
+ @param tag 请求标志
+ @return 请求对象
+ */
+
+/**
+停留点分析
+
+@param request 请求对象
+@param delegate 操作结果的回调对象
+*/
+RCT_EXPORT_METHOD(analyzeStayPoint:(NSString *)entityName
+                  startTime:(NSUInteger)startTime
+                  endTime:(NSUInteger)endTime
+                  stayTime:(NSUInteger)stayTime
+                  stayRadius:(NSUInteger)stayRadius
+                  processOption:(NSDictionary *)processOption
+                  outputCoordType:(NSUInteger)outputCoordType
+                  serviceID:(NSUInteger)serviceID
+                  tag:(NSUInteger)tag
+                  ){
+    BTKQueryTrackProcessOption *process = nil;
+    if (processOption != nil) {
+        process = [BTKQueryTrackProcessOption new];
+        process.denoise = [processOption[@"denoise"] boolValue];
+        process.vacuate = [processOption[@"vacuate"] boolValue];
+        process.mapMatch = [processOption[@"mapMatch"] boolValue];
+        process.radiusThreshold = [processOption[@"radiusThreshold"] integerValue];
+        process.transportMode = [processOption[@"transportMode"] integerValue];
+    }
+    if (processOption == NULL){
+        NSLog(@"NULL");
+    }
+    
+    NSLog(@"%@ ",processOption);
+    NSLog(@"%@",process);
+    // 构造请求对象
+    BTKStayPointAnalysisRequest *request = [[BTKStayPointAnalysisRequest alloc] initWithEntityName:entityName startTime:startTime endTime:endTime stayTime:stayTime stayRadius:20 processOption:process outputCoordType:outputCoordType serviceID:serviceID tag:tag];
+//    // 发起请求
+//    [[BTKAnalysisAction sharedInstance] analyzeStayPointWith:request delegate:self];
+}
+
+
+
 
 #pragma mark - BTKTraceDelegate
 /**
@@ -127,7 +181,32 @@ RCT_EXPORT_METHOD(stopBaiduTraceGather){
  @param message 推送消息的内容
  */
 -(void)onGetPushMessage:(BTKPushMessage *)message{
+    NSLog(@"收到推送消息，消息类型: %@", @(message.type));
+    BTKPushMessageFenceAlarmContent *content = (BTKPushMessageFenceAlarmContent *)message.content;
+    if (message.type == 0x03) {
+        BTKPushMessageFenceAlarmContent *content = (BTKPushMessageFenceAlarmContent *)message.content;
+        if (content.actionType == BTK_FENCE_MONITORED_OBJECT_ACTION_TYPE_ENTER) {
+            NSLog(@"被监控对象 %@ 进入 服务端地理围栏 %@ ", content.monitoredObject, content.fenceName);
+        } else if (content.actionType == BTK_FENCE_MONITORED_OBJECT_ACTION_TYPE_EXIT) {
+            NSLog(@"被监控对象 %@ 离开 服务端地理围栏 %@ ", content.monitoredObject, content.fenceName);
+        }
+    } else if (message.type == 0x04) {
+        BTKPushMessageFenceAlarmContent *content = (BTKPushMessageFenceAlarmContent *)message.content;
+        if (content.actionType == BTK_FENCE_MONITORED_OBJECT_ACTION_TYPE_ENTER) {
+            NSLog(@"被监控对象 %@ 进入 客户端地理围栏 %@ ", content.monitoredObject, content.fenceName);
+        } else if (content.actionType == BTK_FENCE_MONITORED_OBJECT_ACTION_TYPE_EXIT) {
+            NSLog(@"被监控对象 %@ 离开 客户端地理围栏 %@ ", content.monitoredObject, content.fenceName);
+        }
+    }
     
+    NSDictionary *param = @{
+        @"type":@(message.type),
+        @"actionType":@(content.actionType),
+        @"monitoredObject":content.monitoredObject,
+        @"fenceName":content.fenceName,
+    };
+    
+    [self sendEventWithEvent:_onGetPushMessage data:param];
 }
 
 /**
@@ -189,7 +268,7 @@ RCT_EXPORT_METHOD(stopBaiduTraceGather){
 //事件处理
 - (NSArray<NSString *> *)supportedEvents
 {
-    return @[_onStartServer,_onStopService,_onStartGather,_onStopGather,_onGetCustomDataResult,_onChangeGatherAndPackIntervals,_onSetCacheMaxSize];
+    return @[_onStartServer,_onStopService,_onStartGather,_onStopGather,_onGetCustomDataResult,_onChangeGatherAndPackIntervals,_onSetCacheMaxSize,_onGetPushMessage];
 }
 @end
   

@@ -25,7 +25,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import BaiduTrace from './app/index';
+import BaiduTrace, {BTKCoordType, BTKTrackProcessOptionTransportMode} from './app/index';
 class App extends React.Component{
 
     _renderWith(title,callBack){
@@ -52,6 +52,8 @@ class App extends React.Component{
                   {this._renderWith('停止鹰眼服务',()=>this._stopTrace())}
                   {this._renderWith('开启采集服务',()=>this._startTraceGather())}
                   {this._renderWith('停止采集服务',()=>this._stopTraceGather())}
+                  {this._renderWith('停留点分析',()=>this._analyzeStayPoint())}
+
               </ScrollView>
 
           </SafeAreaView>
@@ -75,6 +77,11 @@ class App extends React.Component{
     }
     _stopTraceGather(){
         BaiduTrace.stopBaiduTrace();
+    }
+    _analyzeStayPoint(){
+        let process = BaiduTrace.getBTKQueryTrackProcessOption(true,false,true,20,BTKTrackProcessOptionTransportMode.BTK_TRACK_PROCESS_OPTION_TRANSPORT_MODE_DRIVING)
+        BaiduTrace.analyzeStayPoint('a',111111,11111,11
+        ,1,process,BTKCoordType.BTK_COORDTYPE_BD09LL,123,22)
     }
   componentDidMount() {
       BaiduTrace.onStartService(result=>{
