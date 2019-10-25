@@ -147,7 +147,7 @@ export default class BaiduTrace {
     }
 
     /**
-     * 停止服务
+     * 停止鹰眼服务
      *  停止轨迹服务：此方法将同时停止轨迹服务和轨迹采集，完全结束鹰眼轨迹服务。若需再次启动轨迹追踪，需重新启动服务和轨迹采集
      */
     static stopBaiduTrace() {

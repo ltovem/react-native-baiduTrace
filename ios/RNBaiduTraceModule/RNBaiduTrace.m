@@ -69,7 +69,10 @@ RCT_EXPORT_METHOD(stopBaiduTrace){
 @param delegate 操作结果的回调对象
 */
 RCT_EXPORT_METHOD(startBaiduTraceGather){
-    [[BTKAction sharedInstance] startGather:self];
+    dispatch_async(dispatch_get_main_queue(),^{
+        [[BTKAction sharedInstance] startGather:self];
+    });
+    
 }
 /**
 停止采集
@@ -97,6 +100,7 @@ RCT_EXPORT_METHOD(stopBaiduTraceGather){
  @param error 停止轨迹服务的结果
  */
 -(void)onStopService:(BTKServiceErrorCode) error{
+    NSLog(@"stop 服务结果为 %lu",(unsigned long)error);
     [self sendEventWithEvent:_onStopService data:@{Error:@(error)}];
 }
 

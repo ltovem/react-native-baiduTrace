@@ -28,24 +28,29 @@ import {
 import BaiduTrace from './app/index';
 class App extends React.Component{
 
+    _renderWith(title,callBack){
+        return (
+            <TouchableOpacity
+                onPress = {()=>callBack()}
+                style = {{
+                    // backgroundColor:'#f5a',
+                    padding: 20,
+                }}>
+                <Text style = {{fontSize:18,color:'#4e4e4e'}}>{title}</Text>
+                <View style = {{height:1,backgroundColor:'lightgray',position: 'absolute',left:0,right: 0,bottom:0}}/>
+            </TouchableOpacity>
+        )
+    }
   render(){
     return (
         <View style = {{flex:1,justifyContent:'center'}}>
           <StatusBar barStyle="dark-content" />
           <SafeAreaView>
-            <TouchableOpacity
-                onPress = {()=>this._startServer()}
-                style = {{backgroundColor:'#f5a',padding: 20}}>
-              <Text>初始s化服务</Text>
-              <View style = {{height:1,backgroundColor:'gray',position: 'absolute',left:0,right: 0,bottom:0}}/>
-            </TouchableOpacity>
-              <TouchableOpacity
-                  onPress = {()=>this._startTrace()}
-                  style = {{backgroundColor:'#f5a',padding: 20}}>
-                  <Text>开启服务</Text>
-                  <View style = {{height:1,backgroundColor:'gray',position: 'absolute',left:0,right: 0,bottom:0}}/>
-              </TouchableOpacity>
-
+              {this._renderWith('初始化服务',()=>this._startServer())}
+              {this._renderWith('开启鹰眼服务',()=>this._startTrace())}
+              {this._renderWith('停止鹰眼服务',()=>this._stopTrace())}
+              {this._renderWith('开启采集服务',()=>this._startTraceGather())}
+              {this._renderWith('停止采集服务',()=>this._stopTraceGather())}
           </SafeAreaView>
         </View>
     );
@@ -59,12 +64,35 @@ class App extends React.Component{
   _startTrace(){
       BaiduTrace.startBaiduTrace();
   }
+  _stopTrace(){
+        BaiduTrace.stopBaiduTrace();
+  }
+    _startTraceGather(){
+        BaiduTrace.startBaiduTraceGather();
+    }
+    _stopTraceGather(){
+        BaiduTrace.stopBaiduTrace();
+    }
   componentDidMount() {
       BaiduTrace.onStartService(result=>{
 
           console.log(result);
           console.log('rn end');
       })
+      BaiduTrace.onStopService(result=>{
+          console.log(result);
+          console.log(' stop rn end');
+      })
+      BaiduTrace.onStartGather(result=>{
+
+          console.log(result);
+          console.log('rn start gather end');
+      })
+      BaiduTrace.onStopGather(result=>{
+          console.log(result);
+          console.log(' stop gather rn end');
+      })
+
   }
 };
 
