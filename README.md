@@ -3,11 +3,11 @@
 
 ## Getting started
 
-`$ npm install react-native-baidu-trace --save`
+`$ npm install baidu-trace --save`
 
 ### Mostly automatic installation
 
-`$ react-native link react-native-baidu-trace`
+`$ react-native link baidu-trace`
 
 ### Manual installation
 
@@ -15,7 +15,7 @@
 #### iOS
 
 1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
-2. Go to `node_modules` ➜ `react-native-baidu-trace` and add `RNBaiduTrace.xcodeproj`
+2. Go to `node_modules` ➜ `baidu-trace` and add `RNBaiduTrace.xcodeproj`
 3. In XCode, in the project navigator, select your project. Add `libRNBaiduTrace.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
 4. Run your project (`Cmd+R`)<
 
@@ -53,12 +53,12 @@ APP在声明定位权限时（用作APPStore上架审核），自鹰眼iOS SDK V
   - Add `new RNBaiduTracePackage()` to the list returned by the `getPackages()` method
 2. Append the following lines to `android/settings.gradle`:
   	```
-  	include ':react-native-baidu-trace'
-  	project(':react-native-baidu-trace').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-baidu-trace/android')
+  	include ':baidu-trace'
+  	project(':trace').projectDir = new File(rootProject.projectDir, 	'../node_modules/baidu-trace/android')
   	```
 3. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
   	```
-      compile project(':react-native-baidu-trace')
+      compile project(':baidu-trace')
   	```
 4. 设置AccessKey
    在Mainfest.xml正确设置AccessKey（AK），如果设置错误将会导致鹰眼服务无法正常使用。
@@ -70,7 +70,7 @@ APP在声明定位权限时（用作APPStore上架审核），自鹰眼iOS SDK V
 
 ## Usage
 ```javascript
-import RNBaiduTrace from 'react-native-baidu-trace';
+import RNBaiduTrace from 'baidu-trace';
 
 // TODO: What to do with the module?
 RNBaiduTrace;

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9BB3B06C2362976100590A72 /* RCTJPushEventQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BB3B06B2362976100590A72 /* RCTJPushEventQueue.m */; };
 		9BECC053236029050057B009 /* RNBaiduTrace.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BECC052236029050057B009 /* RNBaiduTrace.m */; };
 /* End PBXBuildFile section */
 
@@ -24,6 +25,8 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libRNBaiduTrace.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNBaiduTrace.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		9BB3B06A2362976100590A72 /* RCTJPushEventQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCTJPushEventQueue.h; path = RNBaiduTraceModule/RCTJPushEventQueue.h; sourceTree = "<group>"; };
+		9BB3B06B2362976100590A72 /* RCTJPushEventQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTJPushEventQueue.m; path = RNBaiduTraceModule/RCTJPushEventQueue.m; sourceTree = "<group>"; };
 		9BECC051236029050057B009 /* RNBaiduTrace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RNBaiduTrace.h; path = RNBaiduTraceModule/RNBaiduTrace.h; sourceTree = "<group>"; };
 		9BECC052236029050057B009 /* RNBaiduTrace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RNBaiduTrace.m; path = RNBaiduTraceModule/RNBaiduTrace.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -52,6 +55,8 @@
 			children = (
 				9BECC051236029050057B009 /* RNBaiduTrace.h */,
 				9BECC052236029050057B009 /* RNBaiduTrace.m */,
+				9BB3B06A2362976100590A72 /* RCTJPushEventQueue.h */,
+				9BB3B06B2362976100590A72 /* RCTJPushEventQueue.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -114,6 +119,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9BECC053236029050057B009 /* RNBaiduTrace.m in Sources */,
+				9BB3B06C2362976100590A72 /* RCTJPushEventQueue.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

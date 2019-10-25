@@ -30,7 +30,7 @@ target 'example' do
 
 #  pod 'RNBaiduTrace', :path => '../node_modules/baidu-trace'
 
-#  pod 'RNBaiduTrace', :path => '../../'
+  pod 'RNBaiduTrace', :path => '../../'
   target 'exampleTests' do
     inherit! :search_paths
     # Pods for testing
