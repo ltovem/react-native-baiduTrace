@@ -26,13 +26,15 @@ public class RNBaiduTraceModule extends ReactContextBaseJavaModule {
     private static ReactApplicationContext reactContext;
 
     //百度鹰眼
-    public static final String ON_START_TRACE = "BaiduTrace_onStartTrace";
-    public static final String ON_STOP_TRACE = "BaiduTrace_onStopTrace";
-    public static final String ON_START_GATHER = "BaiduTrace_onStartGather";
-    public static final String ON_STOP_GATHER = "BaiduTrace_onStopGather";
-    public static final String ON_BIND_SERVICE = "BaiduTrace_onBindService";
-    public static final String ON_PUSH = "BaiduTrace_onPush";
-    public static final String ON_HISTORY_TRACK = "BaiduTrace_onHistoryTrack";
+    public static final String ON_START_TRACE = "onStartService";
+    public static final String ON_STOP_TRACE = "onStopService";
+    public static final String ON_START_GATHER = "onStartGather";
+    public static final String ON_STOP_GATHER = "onStopGather";
+    public static final String ON_PUSH = "onGetPushMessage";
+    public static final String ON_BIND_SERVICE = "onBindService";
+    public static final String ON_HISTORY_TRACK = "onHistoryTrack";
+
+
     private LBSTraceClient mTraceClient;
     private Trace mTrace;
     // 定位周期(单位:秒)
