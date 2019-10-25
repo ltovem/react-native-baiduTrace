@@ -4,8 +4,6 @@ import {
     Platform
 } from 'react-native'
 
-const RNBaiduTrace = NativeModules.RNBaiduTrace
-
 const listeners = {}
 // const ConnectEvent            = 'ConnectEvent'            //连接状态
 // const NotificationEvent       = 'NotificationEvent'       //通知事件
@@ -14,14 +12,15 @@ const listeners = {}
 // const TagAliasEvent           = 'TagAliasEvent'           //TagAlias事件
 // const MobileNumberEvent       = 'MobileNumberEvent'       //电话号码事件
 
-const ON_START_TRACE = "BaiduTrace_onStartTrace"; // 开启服务回调
-const ON_STOP_TRACE = "BaiduTrace_onStopTrace"; // 停止服务回调
-const ON_START_GATHER = "BaiduTrace_onStartGather";// 开启采集回调
-const ON_STOP_GATHER = "BaiduTrace_onStopGather";// 停止采集回调
-const ON_BIND_SERVICE = "BaiduTrace_onBindService";
-const ON_PUSH = "BaiduTrace_onPush"; // 推送回调
-const ON_HISTORY_TRACK = "BaiduTrace_onHistoryTrack"; //查询历史轨迹回调
+export const ON_START_TRACE = "BaiduTrace_onStartTrace"; // 开启服务回调
+export const ON_STOP_TRACE = "BaiduTrace_onStopTrace"; // 停止服务回调
+export const ON_START_GATHER = "BaiduTrace_onStartGather";// 开启采集回调
+export const ON_STOP_GATHER = "BaiduTrace_onStopGather";// 停止采集回调
+export const ON_BIND_SERVICE = "BaiduTrace_onBindService";
+export const ON_PUSH = "BaiduTrace_onPush"; // 推送回调
+export const ON_HISTORY_TRACK = "BaiduTrace_onHistoryTrack"; //查询历史轨迹回调
 
+export const RNBaiduTrace = NativeModules.RNBaiduTrace
 
 export default class BaiduTrace {
 
