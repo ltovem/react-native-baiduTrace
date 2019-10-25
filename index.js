@@ -7,13 +7,9 @@ import {
 const listeners = {}
 
 
-export const ON_START_TRACE = "BaiduTrace_onStartTrace"; // 开启服务回调
-export const ON_STOP_TRACE = "BaiduTrace_onStopTrace"; // 停止服务回调
-export const ON_START_GATHER = "BaiduTrace_onStartGather";// 开启采集回调
-export const ON_STOP_GATHER = "BaiduTrace_onStopGather";// 停止采集回调
-export const ON_BIND_SERVICE = "BaiduTrace_onBindService";
-export const ON_PUSH = "BaiduTrace_onPush"; // 推送回调
-export const ON_HISTORY_TRACK = "BaiduTrace_onHistoryTrack"; //查询历史轨迹回调
+const onBindService = "onBindService";
+const onHistoryTrack = "onHistoryTrack"; //查询历史轨迹回调
+
 const onStartServer = "onStartService"; // 开启轨迹服务的回调方法
 const onStopService = "onStopService"; // 停止轨迹服务的回调方法
 const onStartGather = "onStartGather";// 开始采集的回调方法
@@ -189,9 +185,8 @@ export default class BaiduTrace {
      */
     static getHistoryTrack(tag, serviceId, entityName, startTime, endTime) {
         RNBaiduTrace.getHistoryTrack(tag, serviceId, entityName, startTime, endTime)
+
     }
-
-
 
 
     //**********************************************delegate call back*********************************************************
@@ -275,6 +270,17 @@ export default class BaiduTrace {
     static onSetCacheMaxSize(callback){
         listeners[callback] = DeviceEventEmitter.addListener(
             onSetCacheMaxSize, result => {
+                callback(result)
+            })
+    }
+
+    /**
+     * 查询历史轨迹回调
+     * @param callback
+     */
+    static onHistoryTrack(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onHistoryTrack, result => {
                 callback(result)
             })
     }
