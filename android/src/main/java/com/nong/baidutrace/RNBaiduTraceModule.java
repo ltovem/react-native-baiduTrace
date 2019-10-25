@@ -1,7 +1,7 @@
 package com.nong.baidutrace;
 
 import android.widget.Toast;
-
+import android.os.Bundle;
 import com.baidu.trace.LBSTraceClient;
 import com.baidu.trace.Trace;
 import com.baidu.trace.api.track.HistoryTrackRequest;
@@ -47,7 +47,7 @@ public class RNBaiduTraceModule extends ReactContextBaseJavaModule {
 
     @Override
     public String getName() {
-        return "RNBaidutrace";
+        return "RNBaiduTrace";
     }
 
     @Override
@@ -70,10 +70,10 @@ public class RNBaiduTraceModule extends ReactContextBaseJavaModule {
      * @param entityName          // 设备标识
      * @param isNeedObjectStorage // 是否需要对象存储服务，默认为：false，关闭对象存储服务。
      *                            注：鹰眼 Android SDK v3.0以上版本支持随轨迹上传图像等对象数据，
-     *                            若需使用此功能，该参数需设为 true，且需导入bos-android-sdk-1.0.2.jar。
+     *                            若需使用此功能，该参数需设为 true，且需导入bos-android-sdk-1.0.2.jar
      */
     @ReactMethod
-    public void initBaiduTrace(long serviceId, String entityName, boolean isNeedObjectStorage) {
+    public void initBaiduTrace(int serviceId, String entityName, boolean isNeedObjectStorage) {
         // 初始化轨迹服务
         this.mTrace = new Trace(serviceId, entityName, isNeedObjectStorage);
         // 初始化轨迹服务客户端
@@ -88,13 +88,13 @@ public class RNBaiduTraceModule extends ReactContextBaseJavaModule {
      * @param packInterval 打包回传周期(单位:秒)
      */
     @ReactMethod
-    public void setBaiduTraceInterval(Integer gatherInterval, Integer packInterval) {
+    public void setBaiduTraceInterval(int gatherInterval, int packInterval) {
         gather = gatherInterval;
         pack = packInterval;
         mTraceClient.setInterval(gather, pack);
     }
 
-    public static void sendEvent(String eventName, Integer status, String message) {
+    public static void sendEvent(String eventName, int status, String message) {
         WritableMap params = Arguments.createMap();
         params.putInt("status", status);
         params.putString("message", message);
@@ -185,12 +185,13 @@ public class RNBaiduTraceModule extends ReactContextBaseJavaModule {
      * 查询历史轨迹
      *
      * @param tag        //int 请求标识 1    //待验证：是否返回精简的结果（0 : 将只返回经纬度，1 : 将返回经纬度及其他属性信息）
-     * @param serviceId  //long 轨迹服务ID
+     * @param serviceId  //int 轨迹服务ID
      * @param entityName // 设备标识
      * @param startTime  //  设置轨迹查询起止时间--开始时间(单位：秒)
      * @param endTime    // 设置轨迹查询起止时间--结束时间(单位：秒)
      */
-    public void getHistoryTrack(int tag, long serviceId, String entityName, long startTime, long endTime) {
+    @ReactMethod
+    public void getHistoryTrack(int tag, int serviceId, String entityName, int startTime, int endTime) {
         // 创建历史轨迹请求实例
         HistoryTrackRequest historyTrackRequest = new HistoryTrackRequest(tag, serviceId, entityName);
         // 设置开始时间
