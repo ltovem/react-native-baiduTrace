@@ -222,6 +222,14 @@ export default class BaiduTrace {
     }
 
     /**
+     查询缓存信息
+     @param serviceID 轨迹服务的ID
+     @param tag 请求标志
+     */
+    static queryTrackCacheInfoAll(serviceID,tag){
+        RNBaiduTrace.queryTrackCacheInfoAll(serviceID,tag);
+    }
+    /**
      查询缓存轨迹里程
      @param entityNames entity名称列表
      @param serviceID 轨迹服务的ID

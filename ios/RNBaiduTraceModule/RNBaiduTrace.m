@@ -88,6 +88,17 @@ RCT_EXPORT_METHOD(stopBaiduTraceGather){
 }
 #pragma mark - 轨迹缓存处理
 /**
+ 查询缓存信息
+ @param serviceID 轨迹服务的ID
+ @param tag 请求标志
+ */
+RCT_EXPORT_METHOD(queryTrackCacheInfoAll:(NSUInteger)serviceID tag:(NSUInteger)tag){
+    // 构造请求对象
+    BTKQueryTrackCacheInfoRequest *request = [[BTKQueryTrackCacheInfoRequest alloc] initWithEntityNames:nil serviceID:serviceID tag:tag];
+    // 发起请求
+    [[BTKTrackAction sharedInstance] queryTrackCacheInfoWith:request delegate:self];
+}
+/**
  查询缓存轨迹里程
  @param entityNames entity名称列表
  @param serviceID 轨迹服务的ID
