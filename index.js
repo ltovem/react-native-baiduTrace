@@ -251,6 +251,22 @@ export default class BaiduTrace {
     static queryTrackDistance(entityName,startTime,endTime,isProcessed = false,processOption,supplementMode,serviceID,tag){
         RNBaiduTrace.queryTrackDistance(entityName,startTime,endTime,isProcessed,processOption,supplementMode,serviceID,tag);
     }
+
+    /**
+     创建服务端圆形地理围栏
+     @param latitude 圆心坐标
+     @param longitude 圆心坐标
+     @param radius 半径
+     @param coordType 圆心的坐标类型 BTKCoordType
+     @param denoiseAccuracy 去燥精度 单位：米。每个轨迹点都有一个定位误差半径radius，这个值越大，代表定位越不准确，可能是噪点。围栏计算时，如果噪点也参与计算，会造成误报的情况。设置denoiseAccuray可控制，当轨迹点的定位误差半径大于设置值时，就会把该轨迹点当做噪点，不参与围栏计算。如果不想去噪，设置为0即可。
+     @param fenceName 围栏名称
+     @param monitoredObject 围栏监控对象的名称
+     @param serviceID 轨迹服务的ID
+     @param tag 请求标志
+     */
+    static createServerCircleFence(latitude,longitude,radius,coordType,denoiseAccuracy,fenceName,monitoredObject,serviceID,tag){
+        RNBaiduTrace.createServerCircleFence(latitude,longitude,radius,coordType,denoiseAccuracy,fenceName,monitoredObject,serviceID,tag);
+    }
     /**
      停留点分析
      @param entityName 要查询的entity终端实体的名称

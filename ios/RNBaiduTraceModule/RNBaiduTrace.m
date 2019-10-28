@@ -19,7 +19,7 @@
 #define _onQueryTrackDistance @"onQueryTrackDistance"//里程计算
 #define Error @"error"
 
-@interface RNBaiduTrace ()<BTKTraceDelegate,BTKAnalysisDelegate,BTKTrackDelegate>
+@interface RNBaiduTrace ()<BTKTraceDelegate,BTKAnalysisDelegate,BTKTrackDelegate,BTKFenceDelegate>
 @property (nonatomic,copy)NSString *entryName;
 @end
 
@@ -114,9 +114,30 @@ RCT_EXPORT_METHOD(queryTrackDistance:(NSString *)entityName startTime:(NSUIntege
     // 发起查询请求
     [[BTKTrackAction sharedInstance] queryTrackDistanceWith:request delegate:self];
 }
-
 /**
- 构造方法
+    创建服务端圆形地理围栏
+    @param latitude 圆心坐标
+    @param longitude 圆心坐标
+    @param radius 半径
+    @param coordType 圆心的坐标类型
+    @param denoiseAccuracy 去燥精度 单位：米。每个轨迹点都有一个定位误差半径radius，这个值越大，代表定位越不准确，可能是噪点。围栏计算时，如果噪点也参与计算，会造成误报的情况。设置denoiseAccuray可控制，当轨迹点的定位误差半径大于设置值时，就会把该轨迹点当做噪点，不参与围栏计算。如果不想去噪，设置为0即可。
+    @param fenceName 围栏名称
+    @param monitoredObject 围栏监控对象的名称
+    @param serviceID 轨迹服务的ID
+    @param tag 请求标志
+ */
+RCT_EXPORT_METHOD(createServerCircleFence:(double)latitude longitude:(double)longitude radius:(double)radius coordType:(BTKCoordType)coordType denoiseAccuracy:(NSUInteger)denoiseAccuracy fenceName:(NSString *)fenceName monitoredObject:(NSString *)monitoredObject serviceID:(NSUInteger)serviceID tag:(NSUInteger)tag){
+    // 圆心
+    CLLocationCoordinate2D center = CLLocationCoordinate2DMake(latitude, longitude);
+    // 构造将要创建的新的围栏对象
+    BTKServerCircleFence *fence = [[BTKServerCircleFence alloc] initWithCenter:center radius:radius coordType:coordType denoiseAccuracy:50 fenceName:fenceName monitoredObject:monitoredObject];
+    // 构造请求对象
+    BTKCreateServerFenceRequest *circleRequest = [[BTKCreateServerFenceRequest alloc] initWithServerCircleFence:fence serviceID:serviceID tag:tag];
+    // 发起创建请求
+    [[BTKFenceAction sharedInstance] createServerFenceWith:circleRequest delegate:self];
+}
+/**
+ 停留点分析
 
  @param entityName 要查询的entity终端实体的名称
  @param startTime 开始时间
@@ -129,13 +150,6 @@ RCT_EXPORT_METHOD(queryTrackDistance:(NSString *)entityName startTime:(NSUIntege
  @param tag 请求标志
  @return 请求对象
  */
-
-/**
-停留点分析
-
-@param request 请求对象
-@param delegate 操作结果的回调对象
-*/
 RCT_EXPORT_METHOD(analyzeStayPoint:(NSString *)entityName
                   startTime:(NSUInteger)startTime
                   endTime:(NSUInteger)endTime
@@ -386,6 +400,177 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
  @param response 清空操作的结果
  */
 -(void)onClearTrackCache:(NSData *)response{
+    
+}
+
+#pragma mark - 客户端围栏 实体管理 -delegate
+/**
+ 创建客户端地理围栏的回调方法
+
+ @param response 创建客户端围栏的结果
+ */
+-(void)onCreateLocalFence:(NSData *)response{
+    
+}
+
+/**
+ 删除客户端地理围栏的回调方法
+
+ @param response 创建客户端围栏的结果
+ */
+-(void)onDeleteLocalFence:(NSData *)response{
+    
+}
+
+/**
+ 更新客户端地理围栏的回调方法
+
+ @param response 创建客户端围栏的结果
+ */
+-(void)onUpdateLocalFence:(NSData *)response{
+    
+}
+
+/**
+ 查询客户端地理围栏的回调方法
+
+ @param response 创建客户端围栏的结果
+ */
+-(void)onQueryLocalFence:(NSData *)response{
+    
+}
+
+
+#pragma mark - 客户端围栏 状态与报警查询
+
+/**
+ 查询监控对象和客户端地理围栏的位置关系的回调方法
+
+ @param response 查询结果
+ */
+-(void)onQueryLocalFenceStatus:(NSData *)response{
+    
+}
+
+/**
+ 根据自定义位置，查询监控对象和客户端地理围栏的位置关系的回调方法
+
+ @param response 查询结果
+ */
+-(void)onQueryLocalFenceStatusByCustomLocation:(NSData *)response{
+    
+}
+
+/**
+ 查询客户端地理围栏历史报警信息的回调方法
+
+ @param response 查询结果
+ */
+-(void)onQueryLocalFenceHistoryAlarm:(NSData *)response{
+    
+}
+
+
+#pragma mark - 服务端围栏 实体管理
+/**
+ 创建服务端地理围栏的回调方法
+
+ @param response 创建服务端围栏的结果
+ */
+-(void)onCreateServerFence:(NSData *)response{
+    
+}
+
+/**
+ 删除服务端地理围栏的回调方法
+
+ @param response 删除服务端围栏的结果
+ */
+-(void)onDeleteServerFence:(NSData *)response{
+    
+}
+
+/**
+ 修改服务端地理围栏的回调方法
+
+ @param response 修改服务端围栏的结果
+ */
+-(void)onUpdateServerFence:(NSData *)response{
+    
+}
+
+/**
+ 查询服务端地理围栏的回调方法
+
+ @param response 查询服务端围栏的结果
+ */
+-(void)onQueryServerFence:(NSData *)response{
+    
+}
+
+
+#pragma mark - 服务端围栏 状态与报警查询
+/**
+ 查询监控对象在服务端地理围栏内外的回调方法
+
+ @param response 查询结果
+ */
+-(void)onQueryServerFenceStatus:(NSData *)response{
+    
+}
+
+/**
+ 根据指定的位置查询被监控对象的状态的回调方法
+
+ @param response 查询结果
+ */
+-(void)onQueryServerFenceStatusByCustomLocation:(NSData *)response{
+    
+}
+
+/**
+ 查询监控对象的服务端围栏报警信息的回调方法
+
+ @param response 查询结果
+ */
+-(void)onQueryServerFenceHistoryAlarm:(NSData *)response{
+    
+}
+
+/**
+ 批量同步某service的服务端地理围栏报警信息的回调方法
+
+ @param response 查询结果
+ */
+-(void)onBatchQueryServerFenceHistoryAlarm:(NSData *)response{
+    
+}
+
+#pragma mark - 服务端围栏 监控对象管理
+/**
+ 给服务端围栏添加监控对象的回调方法
+ 
+ @param response 查询结果
+ */
+-(void)onAddMonitoredObject:(NSData *)response{
+    
+}
+
+/**
+ 删除服务端围栏的监控对象的回调方法
+ 
+ @param response 查询结果
+ */
+-(void)onDeleteMonitoredObject:(NSData *)response{
+    
+}
+
+/**
+ 查询服务端围栏的监控对象的回调方法
+ 
+ @param response 查询结果
+ */
+-(void)onListMonitoredObject:(NSData *)response{
     
 }
 
