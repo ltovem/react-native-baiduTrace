@@ -448,6 +448,18 @@ export default class BaiduTrace {
     }
 
     /**
+     可以假设被监控对象处于某自定义的位置坐标时，其和地理围栏的位置关系。
+     @param monitoredObject 围栏的监控对象名称
+     @param latitude 指定的位置坐标
+     @param longitude 指定的位置坐标
+     @param coordType BTKCoordType
+     @param fenceIDs 客户端地理围栏的ID列表
+     @param tag 请求标志
+     */
+    static queryLocalFenceStatusByCustomLocation(monitoredObject,latitude,longitude,coordType,fenceIDs,tag){
+        RNBaiduTrace.queryLocalFenceStatusByCustomLocation(monitoredObject,latitude,longitude,coordType,fenceIDs,tag);
+    }
+    /**
      查询“entityA”这个终端实体上的所有客户端地理围栏，。
      @param monitoredObject 被监控对象的名称
      @param fenceIDs 地理围栏实体的ID列表

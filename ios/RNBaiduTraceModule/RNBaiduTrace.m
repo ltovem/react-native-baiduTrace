@@ -469,7 +469,7 @@ RCT_EXPORT_METHOD(queryLocalFenceStatus:(NSString *)monitoredObject fenceIDs:(NS
  @param fenceIDs 客户端地理围栏的ID列表
  @param tag 请求标志
  */
-RCT_EXPORT_METHOD(queryLocalFenceStatusByCustomLocation:(NSString *)monitoredObject latitude:(double)latitude longitude:(double)longitude coordType:(BTKCoordType)coordType fenceIDs:(NSArray *)fenceIDs serviceID:(NSUInteger)serviceID tag:(NSUInteger)tag){
+RCT_EXPORT_METHOD(queryLocalFenceStatusByCustomLocation:(NSString *)monitoredObject latitude:(double)latitude longitude:(double)longitude coordType:(BTKCoordType)coordType fenceIDs:(NSArray *)fenceIDs  tag:(NSUInteger)tag){
     // 被监控对象的模拟位置
     CLLocationCoordinate2D customLocation = CLLocationCoordinate2DMake(latitude, longitude);
     // 构建请求对象
