@@ -344,6 +344,26 @@ export default class BaiduTrace {
                 callback(result)
             })
     }
+    /**
+     停留点分析结果回调
+     @param {Function} cb = (Object）=> {"response":data}
+     */
+    static onAnalyzeStayPoint(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onAnalyzeStayPoint, result => {
+                callback(result)
+            })
+    }
+    /**
+     驾驶行为分析回调
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onAnalyzeDrivingBehaviour(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onAnalyzeDrivingBehaviour, result => {
+                callback(result)
+            })
+    }
 
 //***************************
     /**
