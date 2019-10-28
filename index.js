@@ -394,6 +394,17 @@ export default class BaiduTrace {
     static queryServerFence(monitoredObject,fenceIDs,outputCoordType,serviceID,tag){
         RNBaiduTrace.queryServerFence(monitoredObject,fenceIDs,outputCoordType,serviceID,tag);
     }
+
+    /**
+     查询终端实体“entityA” 和所有监控该终端实体的服务端地理围栏的位置关系
+     @param monitoredObject 监控对象的名称
+     @param fenceIDs 围栏实体的ID列表 null 所有围栏
+     @param serviceID 轨迹服务的ID
+     @param tag 请求标志
+     */
+    static queryServerFenceStatus(monitoredObject,fenceIDs = null,serviceID,tag){
+        RNBaiduTrace.queryServerFenceStatus(monitoredObject,fenceIDs = null,serviceID,tag);
+    }
     /**
      停留点分析
      @param entityName 要查询的entity终端实体的名称

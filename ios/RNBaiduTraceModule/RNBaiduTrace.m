@@ -306,6 +306,19 @@ RCT_EXPORT_METHOD(queryServerFence:(NSString *)monitoredObject fenceIDs:(NSArray
     [[BTKFenceAction sharedInstance] queryServerFenceWith:request delegate:self];
 }
 /**
+ 查询终端实体“entityA” 和所有监控该终端实体的服务端地理围栏的位置关系
+ @param monitoredObject 监控对象的名称
+ @param fenceIDs 围栏实体的ID列表 nil 所有围栏
+ @param serviceID 轨迹服务的ID
+ @param tag 请求标志
+ */
+RCT_EXPORT_METHOD(queryServerFenceStatus:(NSString *)monitoredObject fenceIDs:(NSArray *)fenceIDs ServiceID:(NSUInteger)serviceID tag:(NSUInteger)tag){
+    // 构建请求对象
+    BTKQueryServerFenceStatusRequest *request = [[BTKQueryServerFenceStatusRequest alloc] initWithMonitoredObject:monitoredObject fenceIDs:fenceIDs ServiceID:serviceID tag:tag];
+    // 发起查询请求
+    [[BTKFenceAction sharedInstance] queryServerFenceStatusWith:request delegate:self];
+}
+/**
  停留点分析
 
  @param entityName 要查询的entity终端实体的名称
