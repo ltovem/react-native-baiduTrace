@@ -86,7 +86,45 @@ RCT_EXPORT_METHOD(startBaiduTraceGather){
 RCT_EXPORT_METHOD(stopBaiduTraceGather){
     [[BTKAction sharedInstance] stopGather:self];
 }
-
+/**
+ 矩形范围搜索
+ @param latitude 矩形左下角的顶点坐标点坐标
+ @param longitude 矩形左下角的顶点坐标点坐标
+ @param latitude2 矩形右上角的顶点坐标点坐标
+ @param longitude2 矩形右上角的顶点坐标点坐标
+ @param inputCoordType 中心点的坐标类型 BTKCoordType
+ @param entityNames entityName列表，精确筛选
+ @param activeTime 过滤条件 UNIX时间戳，查询在此时间之后有定位信息上传的entity（loc_time>=activeTime）。
+ @param fieldName 排序方法 需要排序的字段 entityName列表，精确筛选
+ @param sortby 排序方法 1 asc 2 desc default 1 asc
+ @param outputCoordType 返回的坐标类型
+ @param pageIndex 分页索引
+ @param pageSize 分页大小
+ @param serviceID 轨迹服务的ID
+ @param tag 请求标志
+ */
+RCT_EXPORT_METHOD(boundSearchEntity:(double)latitude longitude:(double)longitude  latitude2:(double)latitude2 longitude2:(double)longitude2 inputCoordType:(BTKCoordType)inputCoordType entityNames:(NSArray *)entityNames activeTime:(NSUInteger )activeTime fieldName:(NSString *)fieldName sortType:(NSUInteger)sortType outputCoordType:(BTKCoordType)outputCoordType pageIndex:(NSUInteger)pageIndex pageSize:(NSUInteger)pageSize ServiceID:(NSUInteger)serviceID tag:(NSUInteger)tag){
+    // 设置矩形的区域
+    NSMutableArray *bounds = [NSMutableArray arrayWithCapacity:2];
+    // 矩形左下角的顶点坐标
+    CLLocationCoordinate2D point1 = CLLocationCoordinate2DMake(latitude, longitude);
+    [bounds addObject:[NSValue valueWithBytes:&point1 objCType:@encode(CLLocationCoordinate2D)]];
+    // 矩形右上角的顶点坐标
+    CLLocationCoordinate2D point2 = CLLocationCoordinate2DMake(latitude2, longitude);
+    [bounds addObject:[NSValue valueWithBytes:&point2 objCType:@encode(CLLocationCoordinate2D)]];
+    // 设置检索的过滤选项
+    BTKQueryEntityFilterOption *filterOption = [[BTKQueryEntityFilterOption alloc] init];
+    filterOption.entityNames = entityNames;
+    filterOption.activeTime = activeTime;
+    // 设置检索结果的排序选项
+    BTKSearchEntitySortByOption * sortbyOption = [[BTKSearchEntitySortByOption alloc] init];
+    sortbyOption.fieldName = fieldName;
+    sortbyOption.sortType = sortType;
+    // 构造检索请求
+    BTKBoundSearchEntityRequest *request = [[BTKBoundSearchEntityRequest alloc] initWithBounds:bounds inputCoordType:inputCoordType filter:filterOption sortby:sortbyOption outputCoordType:outputCoordType pageIndex:pageIndex pageSize:pageSize ServiceID:serviceID tag:tag];
+    // 发起检索请求
+    [[BTKEntityAction sharedInstance] boundSearchEntityWith:request delegate:self];
+}
 /**
  周边搜索
  @param latitude 圆形检索区域的中心点坐标
