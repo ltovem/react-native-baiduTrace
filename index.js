@@ -271,7 +271,7 @@ export default class BaiduTrace {
     /**
      创建服务端多边形围栏
      @param vertexes 多边形的顶点坐标数组，数组中每一项为 {"latitude":"36.6","longitude":"133.00"}类型
-     @param coordType 顶点坐标的坐标类型
+     @param coordType 顶点坐标的坐标类型 BTKCoordType
      @param denoiseAccuracy 去燥精度 单位：米。每个轨迹点都有一个定位误差半径radius，这个值越大，代表定位越不准确，可能是噪点。围栏计算时，如果噪点也参与计算，会造成误报的情况。设置denoiseAccuray可控制，当轨迹点的定位误差半径大于设置值时，就会把该轨迹点当做噪点，不参与围栏计算。如果不想去噪，设置为0即可。
      @param fenceName 地理围栏的名称
      @param monitoredObject 地理围栏监控对象的名称
@@ -281,6 +281,20 @@ export default class BaiduTrace {
 
     static createServerPolygonFence(vertexes,coordType,denoiseAccuracy,fenceName,monitoredObject,serviceID,tag){
         RNBaiduTrace.createServerPolygonFence(vertexes,coordType,denoiseAccuracy,fenceName,monitoredObject,serviceID,tag);
+    }
+    /**
+     创建服务端多边形围栏
+     @param vertexes 多边形的顶点坐标数组，数组中每一项为 {"latitude":"36.6","longitude":"133.00"}类型
+     @param coordType 顶点坐标的坐标类型 BTKCoordType
+     @param offset 偏离距离 偏移距离（若偏离折线距离超过该距离即报警），单位：米 示例：200
+     @param denoiseAccuracy 去燥精度 单位：米。每个轨迹点都有一个定位误差半径radius，这个值越大，代表定位越不准确，可能是噪点。围栏计算时，如果噪点也参与计算，会造成误报的情况。设置denoiseAccuray可控制，当轨迹点的定位误差半径大于设置值时，就会把该轨迹点当做噪点，不参与围栏计算。如果不想去噪，设置为0即可。
+     @param fenceName 地理围栏的名称
+     @param monitoredObject 地理围栏监控对象的名称
+     @param serviceID 轨迹服务的ID
+     @param tag 请求标志
+     */
+    static createServerPolylineFence(vertexes,coordType,offset,denoiseAccuracy,fenceName,monitoredObject,serviceID,tag){
+        RNBaiduTrace.createServerPolylineFence(vertexes,coordType,offset,denoiseAccuracy,fenceName,monitoredObject,serviceID,tag);
     }
     /**
      停留点分析
