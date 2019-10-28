@@ -86,7 +86,37 @@ RCT_EXPORT_METHOD(startBaiduTraceGather){
 RCT_EXPORT_METHOD(stopBaiduTraceGather){
     [[BTKAction sharedInstance] stopGather:self];
 }
-
+/**
+ 查询历史轨迹
+ @param entityName 要查询的entity终端实体的名称
+ @param startTime 开始时间
+ @param endTime 结束时间
+ @param isProcessed 是否返回纠偏后的轨迹
+ @param processOption 纠偏选项
+ @param supplementMode 里程补偿方式
+ @param outputCoordType 返回轨迹点的坐标类型
+ @param sortType 返回轨迹点的排序规则
+ @param pageIndex 分页索引
+ @param pageSize 分页大小
+ @param serviceID 轨迹服务的ID
+ @param tag 请求标志
+ */
+RCT_EXPORT_METHOD(getHistoryTrack:(NSUInteger)tag serviceID:(NSUInteger)serviceID entityName:(NSString *)entityName startTime:(NSUInteger)startTime endTime:(NSUInteger)endTime isProcessed:(BOOL)isProcessed processOption:(NSDictionary *)processOption supplementMode:(BTKTrackProcessOptionSupplementMode)supplementMode outputCoordType:(BTKCoordType)outputCoordType sortType:(BTKTrackSortType)sortType pageIndex:(NSUInteger)pageIndex pageSize:(NSUInteger)pageSize  ){
+    // 构造请求对象
+    BTKQueryTrackProcessOption *process = nil;
+    if (processOption != nil) {
+        process = [BTKQueryTrackProcessOption new];
+        process.denoise = [processOption[@"denoise"] boolValue];
+        process.vacuate = [processOption[@"vacuate"] boolValue];
+        process.mapMatch = [processOption[@"mapMatch"] boolValue];
+        process.radiusThreshold = [processOption[@"radiusThreshold"] integerValue];
+        process.transportMode = [processOption[@"transportMode"] integerValue];
+    }
+    BTKQueryHistoryTrackRequest *request = [[BTKQueryHistoryTrackRequest alloc] initWithEntityName:entityName startTime:startTime endTime:endTime isProcessed:isProcessed processOption:process supplementMode:supplementMode outputCoordType:outputCoordType sortType:sortType pageIndex:pageIndex pageSize:pageSize serviceID:serviceID tag:tag];
+    // 发起查询请求
+    [[BTKTrackAction sharedInstance] queryHistoryTrackWith:request delegate:self];
+}
+#pragma mark - 里程计算
 /**
  里程计算
  @param entityName entity名称
@@ -114,6 +144,7 @@ RCT_EXPORT_METHOD(queryTrackDistance:(NSString *)entityName startTime:(NSUIntege
     // 发起查询请求
     [[BTKTrackAction sharedInstance] queryTrackDistanceWith:request delegate:self];
 }
+#pragma mark - 地理围栏
 /**
     创建服务端圆形地理围栏
     @param latitude 圆心坐标

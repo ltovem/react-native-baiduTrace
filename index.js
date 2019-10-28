@@ -231,9 +231,21 @@ export default class BaiduTrace {
      * @param entityName // 设备标识
      * @param startTime  //  设置轨迹查询起止时间--开始时间(单位：秒)
      * @param endTime    // 设置轨迹查询起止时间--结束时间(单位：秒)
+     * @param isProcessed 是否返回纠偏后的轨迹
+     * @param processOption 纠偏选项 call getBTKQueryTrackProcessOption() or null
+     * @param supplementMode 里程补偿方式 BTKTrackProcessOptionSupplementMode  requite（ios）
+     * @param outputCoordType 返回轨迹点的坐标类型 BTKCoordType default BTK_COORDTYPE_GCJ02
+     * @param sortType 返回轨迹点的排序规则 1 asc 2 desc default 1
+     * @param pageIndex 分页索引
+     * @param pageSize 分页大小
      */
-    static getHistoryTrack(tag, serviceId, entityName, startTime, endTime) {
-        RNBaiduTrace.getHistoryTrack(tag, serviceId, entityName, startTime, endTime)
+    static getHistoryTrack(tag, serviceId, entityName, startTime, endTime,isProcessed = false,processOption = null,supplementMode,outputCoordType = BTKCoordType.BTK_COORDTYPE_GCJ02,sortType = 1,pageIndex = 1,pageSize = 10) {
+       if (Platform.OS == "ios"){
+           RNBaiduTrace.getHistoryTrack(tag, serviceId, entityName, startTime, endTime,isProcessed,processOption,supplementMode,outputCoordType,sortType,pageIndex,pageSize);
+       } else {
+           RNBaiduTrace.getHistoryTrack(tag, serviceId, entityName, startTime, endTime);
+       }
+
 
     }
 
