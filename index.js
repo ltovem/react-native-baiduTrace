@@ -222,6 +222,15 @@ export default class BaiduTrace {
     }
 
     /**
+     清空缓存信息
+     @param optionArray item=>{"entityName":"xxx","startTime":1457788888,"endTime":1234555555}
+     @param serviceID 轨迹服务的ID
+     @param tag 请求标志
+     */
+    static clearTrackCache(optionArray,serviceID,tag){
+        RNBaiduTrace.clearTrackCache(optionArray,serviceID,tag);
+    }
+    /**
      关键字检索
      @param query 关键字
      @param activeTime 过滤条件 UNIX时间戳，查询在此时间之后有定位信息上传的entity（loc_time>=activeTime）。

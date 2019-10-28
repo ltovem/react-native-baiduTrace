@@ -87,6 +87,24 @@ RCT_EXPORT_METHOD(stopBaiduTraceGather){
     [[BTKAction sharedInstance] stopGather:self];
 }
 
+/**
+ 清空缓存信息
+ @param optionArray item=>{"entityName":"xxx","startTime":1457788888,"endTime":1234555555}
+ @param serviceID 轨迹服务的ID
+ @param tag 请求标志
+ */
+RCT_EXPORT_METHOD(clearTrackCache:(NSArray *)optionArray ServiceID:(NSUInteger)serviceID tag:(NSUInteger)tag){
+    // 设置清空的条件
+    NSMutableArray *options = [NSMutableArray array];
+    for (NSDictionary *temp in optionArray) {
+        BTKClearTrackCacheOption *op = [[BTKClearTrackCacheOption alloc]initWithEntityName:temp[@"entityName"] startTime:[temp[@"startTime"] integerValue] endTime:[temp[@"endTime"] integerValue]];
+        [options addObject:op];
+    }
+    // 构造请求对象
+    BTKClearTrackCacheRequest *request = [[BTKClearTrackCacheRequest alloc] initWithOptions:options serviceID:serviceID tag:tag];
+    // 发起请求
+    [[BTKTrackAction sharedInstance] clearTrackCacheWith:request delegate:self];
+}
 #pragma mark - 空间搜索
 /**
  关键字检索
