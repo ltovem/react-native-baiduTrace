@@ -448,6 +448,15 @@ export default class BaiduTrace {
     }
 
     /**
+     客户端围栏查询
+     @param monitoredObject 监控对象的名称
+     @param fenceIDs 地理围栏ID数组
+     @param tag 请求标志
+     */
+    static queryLocalFence(monitoredObject,fenceIDs,tag){
+        RNBaiduTrace.queryLocalFence(monitoredObject,fenceIDs,tag);
+    }
+    /**
      查询终端实体“entityA” 和所有监控该终端实体的客户端地理围栏的位置关系
      @param monitoredObject 监控对象的名称
      @param fenceIDs 围栏实体的ID列表
