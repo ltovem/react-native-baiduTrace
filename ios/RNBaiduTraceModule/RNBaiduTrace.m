@@ -319,6 +319,25 @@ RCT_EXPORT_METHOD(queryServerFenceStatus:(NSString *)monitoredObject fenceIDs:(N
     [[BTKFenceAction sharedInstance] queryServerFenceStatusWith:request delegate:self];
 }
 /**
+ 可以假设被监控对象处于某自定义的位置坐标时，其和地理围栏的位置关系。
+ @param monitoredObject 围栏的监控对象名称
+ @param latitude 指定的位置坐标
+ @param longitude 指定的位置坐标
+ @param coordType BTKCoordType
+ @param fenceIDs 服务端地理围栏的ID列表
+ @param tag 请求标志
+ */
+RCT_EXPORT_METHOD(queryServerFenceStatusByCustomLocation:(NSString *)monitoredObject latitude:(double)latitude longitude:(double)longitude coordType:(BTKCoordType)coordType fenceIDs:(NSArray *)fenceIDs serviceID:(NSUInteger)serviceID tag:(NSUInteger)tag){
+    // 被监控对象的模拟位置
+    CLLocationCoordinate2D customLocation = CLLocationCoordinate2DMake(latitude, longitude);
+    // 地理围栏ID列表
+//    NSArray *fenceIDs = @[@17, @23, @29];
+    // 构建请求对象
+    BTKQueryServerFenceStatusByCustomLocationRequest *request = [[BTKQueryServerFenceStatusByCustomLocationRequest alloc] initWithmonitoredObject:monitoredObject CustomLocation:customLocation coordType:coordType fenceIDs:fenceIDs serviceID:serviceID tag:tag];
+    // 发起查询请求
+    [[BTKFenceAction sharedInstance] queryServerFenceStatusByCustomLocationWith:request delegate:self];
+}
+/**
  停留点分析
 
  @param entityName 要查询的entity终端实体的名称
