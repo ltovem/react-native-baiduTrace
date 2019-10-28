@@ -309,6 +309,18 @@ export default class BaiduTrace {
     static createServerDistrictFence(keyword,denoiseAccuracy,fenceName,monitoredObject,serviceID,tag){
         RNBaiduTrace.createServerDistrictFence(keyword,denoiseAccuracy,fenceName,monitoredObject,serviceID,tag);
     }
+
+    /**
+     构造方法，用于构造删除服务端地理围栏的请求对象
+
+     @param monitoredObject 围栏的监控对象
+     @param fenceIDs 围栏ID的数组，若为空，则删除监控对象上的所有地理围栏
+     @param serviceID 轨迹服务ID
+     @param tag 请求标志
+     */
+    static deleteServerFence(monitoredObject,fenceIDs,serviceID,tag){
+        RNBaiduTrace.deleteServerFence(monitoredObject,fenceIDs,serviceID,tag);
+    }
     /**
      停留点分析
      @param entityName 要查询的entity终端实体的名称

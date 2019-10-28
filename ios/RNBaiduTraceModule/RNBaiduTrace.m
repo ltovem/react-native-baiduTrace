@@ -192,6 +192,21 @@ RCT_EXPORT_METHOD(createServerDistrictFence:(NSString *)keyword denoiseAccuracy:
     BTKCreateServerFenceRequest *DistrictFence = [[BTKCreateServerFenceRequest alloc]initWithServerDistrictFence:fence serviceID:serviceID tag:tag];
     [[BTKFenceAction sharedInstance] createServerFenceWith:DistrictFence delegate:self];
 }
+
+/**
+ 构造方法，用于构造删除服务端地理围栏的请求对象
+
+ @param monitoredObject 围栏的监控对象
+ @param fenceIDs 围栏ID的数组，若为空，则删除监控对象上的所有地理围栏
+ @param serviceID 轨迹服务ID
+ @param tag 请求标志
+ */
+RCT_EXPORT_METHOD(deleteServerFence:(NSString *)monitoredObject fenceIDs:(NSArray *)fenceIDs serviceID:(NSUInteger)serviceID tag:(NSUInteger)tag){
+    // 构造请求对象
+    BTKDeleteServerFenceRequest *request = [[BTKDeleteServerFenceRequest alloc] initWithMonitoredObject:monitoredObject fenceIDs:fenceIDs serviceID:serviceID tag:tag];
+    // 发起删除请求
+    [[BTKFenceAction sharedInstance] deleteServerFenceWith:request delegate:self];
+}
 /**
  停留点分析
 
