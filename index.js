@@ -418,6 +418,20 @@ export default class BaiduTrace {
     static queryServerFenceStatusByCustomLocation(monitoredObject,latitude,longitude,coordType,fenceIDs,tag){
         RNBaiduTrace.queryServerFenceStatusByCustomLocation(monitoredObject,latitude,longitude,coordType,fenceIDs,tag);
     }
+
+    /**
+     查询“entityA”这个终端实体上的所有服务端地理围栏，在过去12小时内的所有报警纪录。
+     @param monitoredObject 被监控对象的名称
+     @param fenceIDs 地理围栏实体的ID列表
+     @param startTime 时间段起点
+     @param endTime 时间段终点
+     @param outputCoordType 返回坐标类型 BTKCoordType
+     @param serviceID 轨迹服务的ID
+     @param tag 请求标志
+     */
+    static queryServerFenceHistoryAlarm(monitoredObject,fenceIDs,startTime,endTime,outputCoordType,serviceID,tag){
+        RNBaiduTrace.queryServerFenceHistoryAlarm(monitoredObject,fenceIDs,startTime,endTime,outputCoordType,serviceID,tag);
+    }
     /**
      停留点分析
      @param entityName 要查询的entity终端实体的名称
