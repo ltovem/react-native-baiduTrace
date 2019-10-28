@@ -296,6 +296,19 @@ export default class BaiduTrace {
     static createServerPolylineFence(vertexes,coordType,offset,denoiseAccuracy,fenceName,monitoredObject,serviceID,tag){
         RNBaiduTrace.createServerPolylineFence(vertexes,coordType,offset,denoiseAccuracy,fenceName,monitoredObject,serviceID,tag);
     }
+
+    /**
+     创建服务端行政区划围栏
+     @param keyword 行政区划关键字
+     @param denoiseAccuracy 去噪精度
+     @param fenceName 围栏名称
+     @param monitoredObject 监控对象名称
+     @param serviceID 轨迹服务的ID
+     @param tag 请求标志
+     */
+    static createServerDistrictFence(keyword,denoiseAccuracy,fenceName,monitoredObject,serviceID,tag){
+        RNBaiduTrace.createServerDistrictFence(keyword,denoiseAccuracy,fenceName,monitoredObject,serviceID,tag);
+    }
     /**
      停留点分析
      @param entityName 要查询的entity终端实体的名称

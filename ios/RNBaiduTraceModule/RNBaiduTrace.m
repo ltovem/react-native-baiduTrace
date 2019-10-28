@@ -176,6 +176,22 @@ RCT_EXPORT_METHOD(createServerPolylineFence:(NSArray *)vertexes coordType:(BTKCo
     BTKCreateServerFenceRequest *polygonLineFenceRequest = [[BTKCreateServerFenceRequest alloc]initWithServerPolylineFence:fence serviceID:serviceID tag:tag];
     [[BTKFenceAction sharedInstance] createServerFenceWith:polygonLineFenceRequest delegate:self];
 }
+
+/**
+ 创建服务端行政区划围栏
+ @param keyword 行政区划关键字
+ @param denoiseAccuracy 去噪精度
+ @param fenceName 围栏名称
+ @param monitoredObject 监控对象名称
+ @param serviceID 轨迹服务的ID
+ @param tag 请求标志
+ */
+RCT_EXPORT_METHOD(createServerDistrictFence:(NSString *)keyword denoiseAccuracy:(NSUInteger)denoiseAccuracy fenceName:(NSString *)fenceName monitoredObject:(NSString *)monitoredObject serviceID:(NSUInteger)serviceID tag:(NSUInteger)tag){
+    
+    BTKServerDistrictFence *fence = [[BTKServerDistrictFence alloc]initWithKeyword:keyword denoiseAccuracy:denoiseAccuracy fenceName:fenceName monitoredObject:monitoredObject];
+    BTKCreateServerFenceRequest *DistrictFence = [[BTKCreateServerFenceRequest alloc]initWithServerDistrictFence:fence serviceID:serviceID tag:tag];
+    [[BTKFenceAction sharedInstance] createServerFenceWith:DistrictFence delegate:self];
+}
 /**
  停留点分析
 
