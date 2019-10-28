@@ -292,6 +292,20 @@ RCT_EXPORT_METHOD(updateServerDistrictFence:(NSString *)keyword denoiseAccuracy:
     [[BTKFenceAction sharedInstance] updateServerFenceWith:DistrictFence delegate:self];
 }
 /**
+ 服务端围栏查询
+ @param monitoredObject 围栏监控的对象的entity_name
+ @param fenceIDs 要查询的地理围栏ID列表，若为空，则查询监控对象上的所有地理围栏
+ @param outputCoordType 输出坐标类型，只能选择百度经纬度或者国测局经纬度，在国内（包括港、澳、台）以外区域，无论设置何种坐标系，均返回 wgs84坐标
+ @param serviceID 轨迹服务ID
+ @param tag 请求标志
+ */
+RCT_EXPORT_METHOD(queryServerFence:(NSString *)monitoredObject fenceIDs:(NSArray *)fenceIDs outputCoordType:(BTKCoordType)outputCoordType serviceID:(NSUInteger)serviceID tag:(NSUInteger)tag){
+    // 构建请求对象
+    BTKQueryServerFenceRequest *request = [[BTKQueryServerFenceRequest alloc] initWithMonitoredObject:monitoredObject fenceIDs:fenceIDs outputCoordType:outputCoordType serviceID:serviceID tag:tag];
+    // 发送查询请求
+    [[BTKFenceAction sharedInstance] queryServerFenceWith:request delegate:self];
+}
+/**
  停留点分析
 
  @param entityName 要查询的entity终端实体的名称
