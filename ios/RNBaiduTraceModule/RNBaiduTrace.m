@@ -13,9 +13,12 @@
 #define  _onChangeGatherAndPackIntervals @"onChangeGatherAndPackIntervals" //更改采集和打包上传周期的结果的回调方法
 #define  _onSetCacheMaxSize @"onSetCacheMaxSize"// 设置缓存占用的最大磁盘空间的结果的回调方法
 #define  _onRequestAlwaysLocationAuthorization @"onRequestAlwaysLocationAuthorization" //请求后台定位权限的回调方法
+
+#define _onAnalyzeDrivingBehaviour @"onAnalyzeDrivingBehaviour" //驾驶行为分析
+#define _onAnalyzeStayPoint @"onAnalyzeStayPoint" //停留点分析
 #define Error @"error"
 
-@interface RNBaiduTrace ()<BTKTraceDelegate>
+@interface RNBaiduTrace ()<BTKTraceDelegate,BTKAnalysisDelegate>
 @property (nonatomic,copy)NSString *entryName;
 @end
 
@@ -123,19 +126,55 @@ RCT_EXPORT_METHOD(analyzeStayPoint:(NSString *)entityName
         process.radiusThreshold = [processOption[@"radiusThreshold"] integerValue];
         process.transportMode = [processOption[@"transportMode"] integerValue];
     }
-    if (processOption == NULL){
-        NSLog(@"NULL");
-    }
     
-    NSLog(@"%@ ",processOption);
-    NSLog(@"%@",process);
+    
     // 构造请求对象
-    BTKStayPointAnalysisRequest *request = [[BTKStayPointAnalysisRequest alloc] initWithEntityName:entityName startTime:startTime endTime:endTime stayTime:stayTime stayRadius:20 processOption:process outputCoordType:outputCoordType serviceID:serviceID tag:tag];
+    BTKStayPointAnalysisRequest *request = [[BTKStayPointAnalysisRequest alloc] initWithEntityName:entityName startTime:startTime endTime:endTime stayTime:stayTime stayRadius:stayRadius processOption:process outputCoordType:outputCoordType serviceID:serviceID tag:tag];
 //    // 发起请求
-//    [[BTKAnalysisAction sharedInstance] analyzeStayPointWith:request delegate:self];
+    [[BTKAnalysisAction sharedInstance] analyzeStayPointWith:request delegate:self];
 }
+/**
+    驾驶行为分析
+ @param entityName 要查询的entity终端实体的名称
+ @param startTime 开始时间
+ @param endTime 结束时间
+ @param thresholdOption 阈值选项
+ @param processOption 纠偏选项
+ @param outputCoordType 返回的坐标类型
+ @param serviceID 轨迹服务的ID
+ @param tag 请求标志
+ */
+RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
+                    startTime:(NSUInteger)startTime
+                    endTime:(NSUInteger)endTime
+                    thresholdOption:(NSDictionary *)thresholdOption
+                    processOption:(NSDictionary *)processOption
+                    outputCoordType:(NSUInteger)outputCoordType
+                    serviceID:(NSUInteger)serviceID
+                    tag:(NSUInteger)tag){
+ 
+    BTKQueryTrackProcessOption *process = nil;
+    if (processOption != nil) {
+        process = [BTKQueryTrackProcessOption new];
+        process.denoise = [processOption[@"denoise"] boolValue];
+        process.vacuate = [processOption[@"vacuate"] boolValue];
+        process.mapMatch = [processOption[@"mapMatch"] boolValue];
+        process.radiusThreshold = [processOption[@"radiusThreshold"] integerValue];
+        process.transportMode = [processOption[@"transportMode"] integerValue];
+    }
 
-
+    BTKDrivingBehaviorThresholdOption *threadoption = nil;
+    if (thresholdOption != nil) {
+        threadoption = [BTKDrivingBehaviorThresholdOption new];
+        threadoption.speedingThreshold = [thresholdOption[@"speedingThreshold"] doubleValue];
+        threadoption.harshAccelerationThreshold = [thresholdOption[@"harshAccelerationThreshold"] doubleValue];
+        threadoption.harshBreakingThreshold = [thresholdOption[@"harshBreakingThreshold"] doubleValue];
+        threadoption.harshSteeringThreshold = [thresholdOption[@"harshSteeringThreshold"] doubleValue];
+    }
+    BTKDrivingBehaviourAnalysisRequest *request = [[BTKDrivingBehaviourAnalysisRequest alloc]initWithEntityName:entityName startTime:startTime endTime:endTime thresholdOption:threadoption processOption:process outputCoordType:outputCoordType serviceID:serviceID tag:tag];
+    // 发起请求
+    [[BTKAnalysisAction sharedInstance] analyzeDrivingBehaviourWith:request delegate:self];
+}
 
 
 #pragma mark - BTKTraceDelegate
@@ -258,7 +297,25 @@ RCT_EXPORT_METHOD(analyzeStayPoint:(NSString *)entityName
 
 
 
-- (void)sendEventWithEvent:(NSString *)event data:(NSDictionary *)responseData{
+#pragma mark - 轨迹分析delegete
+/**
+停留点分析的回调方法
+
+@param response 停留点分析的结果
+*/
+- (void)onAnalyzeStayPoint:(NSData *)response{
+    [self sendEventWithEvent:_onAnalyzeStayPoint data:response];
+}
+/**
+驾驶行为分析的回调方法
+
+@param response 驾驶行为分析的结果
+*/
+- (void)onAnalyzeDrivingBehaviour:(NSData *)response{
+    [self sendEventWithEvent:_onAnalyzeDrivingBehaviour data:response];
+}
+
+- (void)sendEventWithEvent:(NSString *)event data:(id)responseData{
     [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
         method:@"emit"
           args:@[event, responseData]
@@ -268,7 +325,7 @@ RCT_EXPORT_METHOD(analyzeStayPoint:(NSString *)entityName
 //事件处理
 - (NSArray<NSString *> *)supportedEvents
 {
-    return @[_onStartServer,_onStopService,_onStartGather,_onStopGather,_onGetCustomDataResult,_onChangeGatherAndPackIntervals,_onSetCacheMaxSize,_onGetPushMessage];
+    return @[_onStartServer,_onStopService,_onStartGather,_onStopGather,_onGetCustomDataResult,_onChangeGatherAndPackIntervals,_onSetCacheMaxSize,_onGetPushMessage,_onAnalyzeStayPoint,_onAnalyzeStayPoint];
 }
 @end
   

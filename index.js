@@ -19,6 +19,8 @@ const onGetCustomDataResult = "onGetCustomDataResult"; // 用户自定义信息�
 const onChangeGatherAndPackIntervals = "onChangeGatherAndPackIntervals"; //更改采集和打包上传周期的结果的回调方法
 const onSetCacheMaxSize = "onSetCacheMaxSize";// 设置缓存占用的最大磁盘空间的结果的回调方法
 const onRequestAlwaysLocationAuthorization = "onRequestAlwaysLocationAuthorization"; //请求后台定位权限的回调方法
+const onAnalyzeDrivingBehaviour = "onAnalyzeDrivingBehaviour";// 驾驶行为分析
+const onAnalyzeStayPoint = "onAnalyzeStayPoint" //停留点分析
 
 export const RNBaiduTrace = NativeModules.RNBaiduTrace
 /**
@@ -215,28 +217,35 @@ export default class BaiduTrace {
     }
 
     /**
-     构造方法
-
+     停留点分析
      @param entityName 要查询的entity终端实体的名称
-     @param startTime 开始时间
-     @param endTime 结束时间
-     @param stayTime 停留时间
-     @param stayRadius 停留半径
-     @param processOption 纠偏选项
-     @param outputCoordType 返回的坐标类型
+     @param startTime 开始时间 时间戳
+     @param endTime 结束时间 时间戳
+     @param stayTime 停留时间 s
+     @param stayRadius 停留半径 单位米
+     @param processOption 纠偏选项 call getBTKQueryTrackProcessOption() or null
+     @param outputCoordType 返回的坐标类型 BTKCoordType
      @param serviceID 轨迹服务的ID
      @param tag 请求标志
      @return 请求对象
      */
-
-    /**
-     停留点分析
-
-     @param request 请求对象
-     @param delegate 操作结果的回调对象
-     */
     static analyzeStayPoint(entityName,startTime,endTime,stayTime,stayRadius,processOption,outputCoordType,serviceID,tag){
         RNBaiduTrace.analyzeStayPoint(entityName,startTime,endTime,stayTime,stayRadius,processOption,outputCoordType,serviceID,tag);
+    }
+    /**
+     驾驶行为分析
+     @param entityName 要查询的entity终端实体的名称
+     @param startTime 开始时间 时间戳
+     @param endTime 结束时间 时间戳
+     @param thresholdOption 阈值选项 call getBTKDrivingBehaviorThresholdOption() or null
+     @param processOption 纠偏选项 call getBTKQueryTrackProcessOption() or null
+     @param outputCoordType 返回的坐标类型 BTKCoordType
+     @param serviceID 轨迹服务的ID
+     @param tag 请求标志
+     @return 请求对象
+     */
+    static analyzeDrivingBehaviour(entityName,startTime,endTime,thresholdOption,processOption,outputCoordType,serviceID,tag){
+        RNBaiduTrace.analyzeDrivingBehaviour(entityName,startTime,endTime,thresholdOption,processOption,outputCoordType,serviceID,tag);
     }
 
     //**********************************************delegate call back*********************************************************
@@ -357,6 +366,22 @@ export default class BaiduTrace {
             mapMatch:mapMatch,
             radiusThreshold:radiusThreshold,
             transportMode:transportMode,
+        }
+    }
+
+    /**
+     * 轨迹分析时需要的阈值，各阈值均有默认值。
+     * @param speedingThreshold 固定限速值，可选。 若设置为非0值，则以设置的数值为阈值，轨迹点速度超过该值则认为是超速；若不设置，或设置为0，则根据百度地图道路限速数据计算超速点。
+     * @param harshAccelerationThreshold 急加速的水平加速度阈值。 单位：m^2/s，默认值：1.67，仅支持正数
+     * @param harshBreakingThreshold 急减速的水平加速度阈值。 单位：m^2/s，默认值：-1.67，仅支持负数
+     * @param harshSteeringThreshold 急转弯的向心加速度阈值。 单位：m^2/s，默认值：5，仅支持正数
+     */
+    static getBTKDrivingBehaviorThresholdOption(speedingThreshold = 0.0,harshAccelerationThreshold = 0.0,harshBreakingThreshold = 0.0,harshSteeringThreshold = 0.0){
+        return {
+            speedingThreshold:speedingThreshold,
+            harshAccelerationThreshold:harshAccelerationThreshold,
+            harshBreakingThreshold:harshBreakingThreshold,
+            harshSteeringThreshold:harshSteeringThreshold,
         }
     }
 }
