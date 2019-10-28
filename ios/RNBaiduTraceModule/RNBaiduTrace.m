@@ -87,6 +87,29 @@ RCT_EXPORT_METHOD(stopBaiduTraceGather){
     [[BTKAction sharedInstance] stopGather:self];
 }
 /**
+ 查询某终端实体的经过轨迹纠偏后的实时位置
+ @param entityName entity名称
+ @param processOption 纠偏选项
+ @param outputCoordType 返回的坐标类型
+ @param serviceID 轨迹服务的ID
+ @param tag 请求标志
+ */
+RCT_EXPORT_METHOD(queryTrackLatestPoint:(NSString *)entityName processOption:(NSDictionary *)processOption outputCootdType:(BTKCoordType)outputCoordType serviceID:(NSUInteger)serviceID tag:(NSUInteger)tag){
+    BTKQueryTrackProcessOption *process = nil;
+       if (processOption != nil) {
+           process = [BTKQueryTrackProcessOption new];
+           process.denoise = [processOption[@"denoise"] boolValue];
+           process.vacuate = [processOption[@"vacuate"] boolValue];
+           process.mapMatch = [processOption[@"mapMatch"] boolValue];
+           process.radiusThreshold = [processOption[@"radiusThreshold"] integerValue];
+           process.transportMode = [processOption[@"transportMode"] integerValue];
+       }
+    // 构造请求对象
+    BTKQueryTrackLatestPointRequest *request = [[BTKQueryTrackLatestPointRequest alloc] initWithEntityName:entityName processOption: process outputCootdType:outputCoordType serviceID:serviceID tag:tag];
+    // 发起查询请求
+    [[BTKTrackAction sharedInstance] queryTrackLatestPointWith:request delegate:self];
+}
+/**
  查询历史轨迹
  @param entityName 要查询的entity终端实体的名称
  @param startTime 开始时间

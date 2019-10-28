@@ -222,6 +222,17 @@ export default class BaiduTrace {
     }
 
 
+    /**
+     查询某终端实体的经过轨迹纠偏后的实时位置
+     @param entityName entity名称
+     @param processOption 纠偏选项 call getBTKQueryTrackProcessOption() or null
+     @param outputCoordType 返回的坐标类型 BTKCoordType default BTK_COORDTYPE_GCJ02
+     @param serviceID 轨迹服务的ID
+     @param tag 请求标志
+     */
+    static queryTrackLatestPoint(entityName,serviceID,tag,processOption = null,outputCoordType = BTKCoordType.BTK_COORDTYPE_GCJ02){
+        RNBaiduTrace.queryTrackLatestPoint(entityName,processOption,outputCoordType,serviceID,tag);
+    }
 
     /**
      * 查询历史轨迹
