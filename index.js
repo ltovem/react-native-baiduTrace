@@ -19,6 +19,8 @@ const onGetCustomDataResult = "onGetCustomDataResult"; // 用户自定义信息�
 const onChangeGatherAndPackIntervals = "onChangeGatherAndPackIntervals"; //更改采集和打包上传周期的结果的回调方法
 const onSetCacheMaxSize = "onSetCacheMaxSize";// 设置缓存占用的最大磁盘空间的结果的回调方法
 const onRequestAlwaysLocationAuthorization = "onRequestAlwaysLocationAuthorization"; //请求后台定位权限的回调方法
+
+const onQueryTrackDistance = "onQueryTrackDistance"//里程计算
 const onAnalyzeDrivingBehaviour = "onAnalyzeDrivingBehaviour";// 驾驶行为分析
 const onAnalyzeStayPoint = "onAnalyzeStayPoint" //停留点分析
 
@@ -138,6 +140,23 @@ const BTKCoordType = {
     BTK_COORDTYPE_GCJ02 : 2,
     BTK_COORDTYPE_BD09LL : 3,
 };
+/**
+ 查询里程时中断轨迹的里程补偿方式
+ 在里程计算时，两个轨迹点定位时间间隔5分钟以上，被认为是中断。中断轨迹提供以下5种里程补偿方式。
+
+ - BTK_TRACK_PROCESS_OPTION_NO_SUPPLEMENT: 不补充，中断两点间距离不记入里程
+ - BTK_TRACK_PROCESS_OPTION_SUPPLEMENT_MODE_STRAIGHT: 使用直线距离补充
+ - BTK_TRACK_PROCESS_OPTION_SUPPLEMENT_MODE_DRIVING: 使用最短驾车路线距离补充
+ - BTK_TRACK_PROCESS_OPTION_SUPPLEMENT_MODE_RIDING: 使用最短骑行路线距离补充
+ - BTK_TRACK_PROCESS_OPTION_SUPPLEMENT_MODE_WALKING: 使用最短步行路线距离补充
+ */
+const BTKTrackProcessOptionSupplementMode = {
+    BTK_TRACK_PROCESS_OPTION_NO_SUPPLEMENT : 1,
+    BTK_TRACK_PROCESS_OPTION_SUPPLEMENT_MODE_STRAIGHT : 2,
+    BTK_TRACK_PROCESS_OPTION_SUPPLEMENT_MODE_DRIVING : 3,
+    BTK_TRACK_PROCESS_OPTION_SUPPLEMENT_MODE_RIDING : 4,
+    BTK_TRACK_PROCESS_OPTION_SUPPLEMENT_MODE_WALKING : 5,
+};
 export default class BaiduTrace {
 
     /**
@@ -202,6 +221,8 @@ export default class BaiduTrace {
         RNBaiduTrace.stopBaiduTraceGather()
     }
 
+
+
     /**
      * 查询历史轨迹
      *
@@ -216,6 +237,20 @@ export default class BaiduTrace {
 
     }
 
+    /**
+     里程计算
+     @param entityName entity名称
+     @param startTime 开始时间
+     @param endTime 结束时间
+     @param isProcessed 是否返回纠偏后的里程 default false
+     @param processOption 纠偏选项 call getBTKQueryTrackProcessOption() or null
+     @param supplementMode 里程补偿方式 BTKTrackProcessOptionSupplementMode require
+     @param serviceID 轨迹服务的ID
+     @param tag 请求标志
+     */
+    static queryTrackDistance(entityName,startTime,endTime,isProcessed = false,processOption,supplementMode,serviceID,tag){
+        RNBaiduTrace.queryTrackDistance(entityName,startTime,endTime,isProcessed,processOption,supplementMode,serviceID,tag);
+    }
     /**
      停留点分析
      @param entityName 要查询的entity终端实体的名称
@@ -341,6 +376,16 @@ export default class BaiduTrace {
     static onHistoryTrack(callback){
         listeners[callback] = DeviceEventEmitter.addListener(
             onHistoryTrack, result => {
+                callback(result)
+            })
+    }
+    /**
+     里程计算
+     @param {Function} cb = (Object）=> {"response":data}
+     */
+    static onQueryTrackDistance(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onQueryTrackDistance, result => {
                 callback(result)
             })
     }

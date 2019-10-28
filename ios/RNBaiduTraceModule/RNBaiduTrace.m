@@ -16,9 +16,10 @@
 
 #define _onAnalyzeDrivingBehaviour @"onAnalyzeDrivingBehaviour" //驾驶行为分析
 #define _onAnalyzeStayPoint @"onAnalyzeStayPoint" //停留点分析
+#define _onQueryTrackDistance @"onQueryTrackDistance"//里程计算
 #define Error @"error"
 
-@interface RNBaiduTrace ()<BTKTraceDelegate,BTKAnalysisDelegate>
+@interface RNBaiduTrace ()<BTKTraceDelegate,BTKAnalysisDelegate,BTKTrackDelegate>
 @property (nonatomic,copy)NSString *entryName;
 @end
 
@@ -84,6 +85,34 @@ RCT_EXPORT_METHOD(startBaiduTraceGather){
 */
 RCT_EXPORT_METHOD(stopBaiduTraceGather){
     [[BTKAction sharedInstance] stopGather:self];
+}
+
+/**
+ 里程计算
+ @param entityName entity名称
+ @param startTime 开始时间
+ @param endTime 结束时间
+ @param isProcessed 是否返回纠偏后的里程
+ @param processOption 纠偏选项
+ @param supplementMode 里程补偿方式
+ @param serviceID 轨迹服务的ID
+ @param tag 请求标志
+ */
+RCT_EXPORT_METHOD(queryTrackDistance:(NSString *)entityName startTime:(NSUInteger)startTime endTime:(NSUInteger)endTime isProcessed:(BOOL)isProcessed processOption:(NSDictionary *)processOption supplementMode:(BTKTrackProcessOptionSupplementMode)supplementMode serviceID:(NSUInteger)serviceID tag:(NSUInteger)tag){
+    // 设置纠偏选项
+    BTKQueryTrackProcessOption *process = nil;
+    if (processOption != nil) {
+        process = [BTKQueryTrackProcessOption new];
+        process.denoise = [processOption[@"denoise"] boolValue];
+        process.vacuate = [processOption[@"vacuate"] boolValue];
+        process.mapMatch = [processOption[@"mapMatch"] boolValue];
+        process.radiusThreshold = [processOption[@"radiusThreshold"] integerValue];
+        process.transportMode = [processOption[@"transportMode"] integerValue];
+    }
+    // 构造请求对象
+    BTKQueryTrackDistanceRequest *request = [[BTKQueryTrackDistanceRequest alloc] initWithEntityName:entityName startTime:startTime endTime:endTime isProcessed:isProcessed processOption:process supplementMode:supplementMode serviceID:100000 tag:12];
+    // 发起查询请求
+    [[BTKTrackAction sharedInstance] queryTrackDistanceWith:request delegate:self];
 }
 
 /**
@@ -296,6 +325,69 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
 }
 
 
+#pragma mark - 里程计算delegate
+/**
+ 上传开发者自定义轨迹点的回调方法
+
+ @param response 上传结果
+ */
+-(void)onAddCustomTrackPoint:(NSData *)response{
+    
+}
+
+/**
+ 批量上传开发者自定义的轨迹点的回调方法
+
+ @param response 上传结果
+ */
+-(void)onBatchAddCustomTrackPoint:(NSData *)response{
+    
+}
+
+/**
+ 实时位置查询的回调方法
+
+ @param response 查询结果
+ */
+-(void)onQueryTrackLatestPoint:(NSData *)response{
+    
+}
+
+/**
+ 里程查询的回调方法
+
+ @param response 查询结果
+ */
+-(void)onQueryTrackDistance:(NSData *)response{
+    [self sendEventWithEvent:_onQueryTrackDistance data:response];
+}
+
+/**
+ 轨迹查询的回调方法
+
+ @param response 查询结果
+ */
+-(void)onQueryHistoryTrack:(NSData *)response{
+    
+}
+
+/**
+ 缓存查询的回调方法
+
+ @param response 查询结果
+ */
+-(void)onQueryTrackCacheInfo:(NSData *)response{
+    
+}
+
+/**
+ 清空缓存的回调方法
+
+ @param response 清空操作的结果
+ */
+-(void)onClearTrackCache:(NSData *)response{
+    
+}
 
 #pragma mark - 轨迹分析delegete
 /**
@@ -325,7 +417,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
 //事件处理
 - (NSArray<NSString *> *)supportedEvents
 {
-    return @[_onStartServer,_onStopService,_onStartGather,_onStopGather,_onGetCustomDataResult,_onChangeGatherAndPackIntervals,_onSetCacheMaxSize,_onGetPushMessage,_onAnalyzeStayPoint,_onAnalyzeStayPoint];
+    return @[_onStartServer,_onStopService,_onStartGather,_onStopGather,_onGetCustomDataResult,_onChangeGatherAndPackIntervals,_onSetCacheMaxSize,_onGetPushMessage,_onAnalyzeStayPoint,_onAnalyzeStayPoint,_onQueryTrackDistance];
 }
 @end
   
