@@ -86,6 +86,23 @@ RCT_EXPORT_METHOD(startBaiduTraceGather){
 RCT_EXPORT_METHOD(stopBaiduTraceGather){
     [[BTKAction sharedInstance] stopGather:self];
 }
+#pragma mark - 轨迹缓存处理
+/**
+ 查询缓存轨迹里程
+ @param entityNames entity名称列表
+ @param serviceID 轨迹服务的ID
+ @param tag 请求标志
+ @param needDistance 是否返回每个entity的缓存轨迹的里程，选填，默认为false。
+ @param distanceFilter精度过滤阈值，单位：米
+ */
+RCT_EXPORT_METHOD(queryTrackCacheInfo:EntityNames:(NSArray *)entityNames serviceID:(NSUInteger)serviceID tag:(NSUInteger)tag needDistance :(BOOL)needDistance distanceFilter:(double)distanceFilter){
+    // 构造请求对象
+    BTKQueryTrackCacheInfoRequest *request = [[BTKQueryTrackCacheInfoRequest alloc] initWithEntityNames:entityNames serviceID:serviceID tag:tag];
+    request.needDistance = needDistance;
+    request.distanceFilter = distanceFilter;
+    // 发起请求
+    [[BTKTrackAction sharedInstance] queryTrackCacheInfoWith:request delegate:self];
+}
 
 /**
  清空缓存信息

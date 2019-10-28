@@ -222,6 +222,17 @@ export default class BaiduTrace {
     }
 
     /**
+     查询缓存轨迹里程
+     @param entityNames entity名称列表
+     @param serviceID 轨迹服务的ID
+     @param tag 请求标志
+     @param needDistance 是否返回每个entity的缓存轨迹的里程，选填，默认为false。
+     @param distanceFilter 精度过滤阈值，单位：米
+     */
+    static queryTrackCacheInfo(entityNames,serviceID,tag,needDistance,distanceFilter){
+        RNBaiduTrace.queryTrackCacheInfo(entityNames,serviceID,tag,needDistance,distanceFilter);
+    }
+    /**
      清空缓存信息
      @param optionArray item=>{"entityName":"xxx","startTime":1457788888,"endTime":1234555555}
      @param serviceID 轨迹服务的ID
