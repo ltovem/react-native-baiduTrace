@@ -446,6 +446,21 @@ export default class BaiduTrace {
     static batchQueryServerFenceHistoryAlarm(startTime,endTime,outputCoordType,pageIndex,pageSize,serviceID,tag){
         RNBaiduTrace.batchQueryServerFenceHistoryAlarm(startTime,endTime,outputCoordType,pageIndex,pageSize,serviceID,tag);
     }
+
+    /**
+     创建客户端圆形地理围栏
+     @param latitude 圆心坐标
+     @param longitude 圆心坐标
+     @param radius 半径
+     @param coordType 圆心的坐标类型
+     @param denoiseAccuracy 去燥精度 单位：米。每个轨迹点都有一个定位误差半径radius，这个值越大，代表定位越不准确，可能是噪点。围栏计算时，如果噪点也参与计算，会造成误报的情况。设置denoiseAccuray可控制，当轨迹点的定位误差半径大于设置值时，就会把该轨迹点当做噪点，不参与围栏计算。如果不想去噪，设置为0即可。
+     @param fenceName 围栏名称
+     @param monitoredObject 围栏监控对象的名称
+     @param tag 请求标志
+     */
+    static createLocalFenceCircleFence(latitude,longitude,radius,coordType,denoiseAccuracy,fenceName,monitoredObject,tag){
+        RNBaiduTrace.createLocalFenceCircleFence(latitude,longitude,radius,coordType,denoiseAccuracy,fenceName,monitoredObject,tag);
+    }
     /**
      删除围栏，用于构造删除客户端地理围栏的请求对象
 
