@@ -446,6 +446,18 @@ export default class BaiduTrace {
     static batchQueryServerFenceHistoryAlarm(startTime,endTime,outputCoordType,pageIndex,pageSize,serviceID,tag){
         RNBaiduTrace.batchQueryServerFenceHistoryAlarm(startTime,endTime,outputCoordType,pageIndex,pageSize,serviceID,tag);
     }
+
+    /**
+     查询“entityA”这个终端实体上的所有客户端地理围栏，。
+     @param monitoredObject 被监控对象的名称
+     @param fenceIDs 地理围栏实体的ID列表
+     @param startTime 时间段起点
+     @param endTime 时间段终点
+     @param tag 请求标志
+     */
+    static queryLocalFenceHistoryAlarm(monitoredObject,fenceIDs,startTime,endTime,tag){
+        RNBaiduTrace.queryLocalFenceHistoryAlarm(monitoredObject,fenceIDs,startTime,endTime,tag);
+    }
     /**
      停留点分析
      @param entityName 要查询的entity终端实体的名称

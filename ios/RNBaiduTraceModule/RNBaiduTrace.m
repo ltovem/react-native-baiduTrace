@@ -225,7 +225,7 @@ RCT_EXPORT_METHOD(updateServerCircleFence:(double)latitude longitude:(double)lon
     // 圆心
     CLLocationCoordinate2D center = CLLocationCoordinate2DMake(latitude, longitude);
     // 构造将要更新的新的围栏对象
-    BTKServerCircleFence *fence = [[BTKServerCircleFence alloc] initWithCenter:center radius:radius coordType:coordType denoiseAccuracy:50 fenceName:fenceName monitoredObject:monitoredObject];
+    BTKServerCircleFence *fence = [[BTKServerCircleFence alloc] initWithCenter:center radius:radius coordType:coordType denoiseAccuracy:denoiseAccuracy fenceName:fenceName monitoredObject:monitoredObject];
     // 构造请求对象
     BTKUpdateServerFenceRequest *circleRequest = [[BTKUpdateServerFenceRequest alloc] initWithServerCircleFence:fence fenceID:fenceID serviceID:serviceID tag:tag];
     // 发起更新请求
@@ -371,6 +371,128 @@ RCT_EXPORT_METHOD(batchQueryServerFenceHistoryAlarm:(NSUInteger)startTime endTim
     // 发起查询请求
     [[BTKFenceAction sharedInstance] batchQueryServerFenceHistoryAlarmWith:request delegate:self];
 }
+
+#pragma mark -
+
+/**
+    创建客户端圆形地理围栏
+    @param latitude 圆心坐标
+    @param longitude 圆心坐标
+    @param radius 半径
+    @param coordType 圆心的坐标类型
+    @param denoiseAccuracy 去燥精度 单位：米。每个轨迹点都有一个定位误差半径radius，这个值越大，代表定位越不准确，可能是噪点。围栏计算时，如果噪点也参与计算，会造成误报的情况。设置denoiseAccuray可控制，当轨迹点的定位误差半径大于设置值时，就会把该轨迹点当做噪点，不参与围栏计算。如果不想去噪，设置为0即可。
+    @param fenceName 围栏名称
+    @param monitoredObject 围栏监控对象的名称
+    @param tag 请求标志
+ */
+RCT_EXPORT_METHOD(createLocalFenceCircleFence:(double)latitude longitude:(double)longitude radius:(double)radius coordType:(BTKCoordType)coordType denoiseAccuracy:(NSUInteger)denoiseAccuracy fenceName:(NSString *)fenceName monitoredObject:(NSString *)monitoredObject  tag:(NSUInteger)tag){
+    // 圆心
+    CLLocationCoordinate2D center = CLLocationCoordinate2DMake(latitude, longitude);
+    // 构造将要创建的新的围栏对象
+    BTKLocalCircleFence *fence = [[BTKLocalCircleFence alloc] initWithCenter:center radius:radius coordType:coordType denoiseAccuracy:denoiseAccuracy fenceName:fenceName monitoredObject:monitoredObject];
+    // 构造请求对象
+    BTKCreateLocalFenceRequest *circleRequest = [[BTKCreateLocalFenceRequest alloc] initWithLocalCircleFence:fence tag:tag];
+    // 发起创建请求
+    [[BTKFenceAction sharedInstance] createLocalFenceWith:circleRequest delegate:self];
+}
+
+
+
+/**
+ 删除围栏，用于构造删除客户端地理围栏的请求对象
+
+ @param monitoredObject 围栏的监控对象
+ @param fenceIDs 围栏ID的数组，若为空，则删除监控对象上的所有地理围栏
+ @param tag 请求标志
+ */
+RCT_EXPORT_METHOD(deleteLocalFence:(NSString *)monitoredObject fenceIDs:(NSArray *)fenceIDs  tag:(NSUInteger)tag){
+    // 构造请求对象
+    BTKDeleteLocalFenceRequest *request = [[BTKDeleteLocalFenceRequest alloc] initWithMonitoredObject:monitoredObject fenceIDs:fenceIDs  tag:tag];
+    // 发起删除请求
+    [[BTKFenceAction sharedInstance] deleteLocalFenceWith:request delegate:self];
+}
+
+/**
+    更新客户端圆形地理围栏 // ios TO DO
+    @param latitude 圆心坐标
+    @param longitude 圆心坐标
+    @param radius 半径
+    @param coordType 圆心的坐标类型
+    @param denoiseAccuracy 去燥精度 单位：米。每个轨迹点都有一个定位误差半径radius，这个值越大，代表定位越不准确，可能是噪点。围栏计算时，如果噪点也参与计算，会造成误报的情况。设置denoiseAccuray可控制，当轨迹点的定位误差半径大于设置值时，就会把该轨迹点当做噪点，不参与围栏计算。如果不想去噪，设置为0即可。
+    @param fenceName 围栏名称
+    @param monitoredObject 围栏监控对象的名称
+    @param fenceID 要更新的地理围栏ID
+    @param serviceID 轨迹服务的ID
+    @param tag 请求标志
+ */
+RCT_EXPORT_METHOD(updateLocalFenceCircleFence:(double)latitude longitude:(double)longitude radius:(double)radius coordType:(BTKCoordType)coordType denoiseAccuracy:(NSUInteger)denoiseAccuracy fenceName:(NSString *)fenceName monitoredObject:(NSString *)monitoredObject fenceID:(NSUInteger)fenceID serviceID:(NSUInteger)serviceID tag:(NSUInteger)tag){
+    // 圆心
+    CLLocationCoordinate2D center = CLLocationCoordinate2DMake(latitude, longitude);
+    // 构造将要更新的新的围栏对象
+    BTKLocalCircleFence *fence = [[BTKLocalCircleFence alloc] initWithCenter:center radius:radius coordType:coordType denoiseAccuracy:50 fenceName:fenceName monitoredObject:monitoredObject];
+    // 构造请求对象
+//    BTKUpdateLocalFenceRequest *circleRequest = [[BTKUpdateLocalFenceRequest alloc] initWithLocalFenceID:fenceID localCircleFence:fenceName tag:23];
+//    // 发起更新请求
+//    [[BTKFenceAction sharedInstance] updateLocalFenceWith:circleRequest delegate:self];
+}
+
+
+/**
+ 客户端围栏查询
+ @param monitoredObject 监控对象的名称
+ @param fenceIDs 地理围栏ID数组
+ @param tag 请求标志
+ */
+RCT_EXPORT_METHOD(queryLocalFence:(NSString *)monitoredObject fenceIDs:(NSArray *)fenceIDs tag:(NSUInteger)tag){
+    BTKQueryLocalFenceRequest *request = [[BTKQueryLocalFenceRequest alloc] initWithMonitoredObject:monitoredObject fenceIDs:fenceIDs tag:tag];
+    // 查询客户端地理围栏
+    [[BTKFenceAction sharedInstance] queryLocalFenceWith:request delegate:self];
+}
+/**
+ 查询终端实体“entityA” 和所有监控该终端实体的客户端地理围栏的位置关系
+ @param monitoredObject 监控对象的名称
+ @param fenceIDs 围栏实体的ID列表
+ @param tag 请求标志
+ */
+RCT_EXPORT_METHOD(queryLocalFenceStatus:(NSString *)monitoredObject fenceIDs:(NSArray *)fenceIDs tag:(NSUInteger)tag){
+    // 构建请求对象
+    BTKQueryLocalFenceStatusRequest *request = [[BTKQueryLocalFenceStatusRequest alloc] initWithMonitoredObject:monitoredObject fenceIDs:fenceIDs tag:tag];
+    // 发起查询请求
+    [[BTKFenceAction sharedInstance] queryLocalFenceStatusWith:request delegate:self];
+}
+/**
+ 可以假设被监控对象处于某自定义的位置坐标时，其和地理围栏的位置关系。
+ @param monitoredObject 围栏的监控对象名称
+ @param latitude 指定的位置坐标
+ @param longitude 指定的位置坐标
+ @param coordType BTKCoordType
+ @param fenceIDs 客户端地理围栏的ID列表
+ @param tag 请求标志
+ */
+RCT_EXPORT_METHOD(queryLocalFenceStatusByCustomLocation:(NSString *)monitoredObject latitude:(double)latitude longitude:(double)longitude coordType:(BTKCoordType)coordType fenceIDs:(NSArray *)fenceIDs serviceID:(NSUInteger)serviceID tag:(NSUInteger)tag){
+    // 被监控对象的模拟位置
+    CLLocationCoordinate2D customLocation = CLLocationCoordinate2DMake(latitude, longitude);
+    // 构建请求对象
+    BTKQueryLocalFenceStatusByCustomLocationRequest *request = [[BTKQueryLocalFenceStatusByCustomLocationRequest alloc] initWithmonitoredObject:monitoredObject CustomLocation:customLocation coordType:coordType fenceIDs:fenceIDs tag:tag];
+    // 发起查询请求
+    [[BTKFenceAction sharedInstance] queryLocalFenceStatusByCustomLocationWith:request delegate:self];
+}
+/**
+ 查询“entityA”这个终端实体上的所有客户端地理围栏，。
+ @param monitoredObject 被监控对象的名称
+ @param fenceIDs 地理围栏实体的ID列表
+ @param startTime 时间段起点
+ @param endTime 时间段终点
+ @param tag 请求标志
+ */
+RCT_EXPORT_METHOD(queryLocalFenceHistoryAlarm:(NSString *)monitoredObject fenceIDs:(NSArray *)fenceIDs startTime:(NSUInteger)startTime endTime:(NSUInteger)endTime  tag:(NSUInteger)tag){
+    
+    // 构建请求对象
+    BTKQueryLocalFenceHistoryAlarmRequest *request = [[BTKQueryLocalFenceHistoryAlarmRequest alloc] initWithMonitoredObject:monitoredObject fenceIDs:fenceIDs startTime:startTime endTime:endTime tag:tag];
+    // 发起查询请求
+    [[BTKFenceAction sharedInstance] queryLocalFenceHistoryAlarmWith:request delegate:self];
+}
+
 /**
  停留点分析
 
