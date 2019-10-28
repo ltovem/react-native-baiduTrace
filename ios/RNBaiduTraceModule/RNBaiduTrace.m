@@ -136,6 +136,29 @@ RCT_EXPORT_METHOD(createServerCircleFence:(double)latitude longitude:(double)lon
     // 发起创建请求
     [[BTKFenceAction sharedInstance] createServerFenceWith:circleRequest delegate:self];
 }
+
+/**
+ 创建服务端多边形围栏
+ @param vertexes 多边形的顶点坐标数组，数组中每一项为 {"latitude":"36.6","longitude":"133.00"}类型
+ @param coordType 顶点坐标的坐标类型
+ @param denoiseAccuracy 去燥精度 单位：米。每个轨迹点都有一个定位误差半径radius，这个值越大，代表定位越不准确，可能是噪点。围栏计算时，如果噪点也参与计算，会造成误报的情况。设置denoiseAccuray可控制，当轨迹点的定位误差半径大于设置值时，就会把该轨迹点当做噪点，不参与围栏计算。如果不想去噪，设置为0即可。
+ @param fenceName 地理围栏的名称
+ @param monitoredObject 地理围栏监控对象的名称
+ @param serviceID 轨迹服务的ID
+ @param tag 请求标志
+ */
+RCT_EXPORT_METHOD(createServerPolygonFence:(NSArray *)vertexes coordType:(BTKCoordType)coordType denoiseAccuracy:(NSUInteger)denoiseAccuracy fenceName:(NSString *)fenceName monitoredObject:(NSString *)monitoredObject serviceID:(NSUInteger)serviceID tag:(NSUInteger)tag){
+//    NSMutableArray *verArray = [NSMutableArray array];
+//    for (NSDictionary *temp in vertexes) {
+//        CLLocationCoordinate2D
+//        CLLocationCoordinate2D center = CLLocationCoordinate2DMake([temp[@"latitude"] doubleValue], [temp[@"longitude"] doubleValue]);
+//        [verArray addObject:center];
+//    }
+    BTKServerPolygonFence *fence = [[BTKServerPolygonFence alloc]initWithVertexes:vertexes coordType:coordType denoiseAccuracy:denoiseAccuracy fenceName:fenceName monitoredObject:monitoredObject];
+    BTKCreateServerFenceRequest *polygonFenceRequest = [[BTKCreateServerFenceRequest alloc]initWithServerPolygonFence:fence serviceID:serviceID tag:tag];
+    [[BTKFenceAction sharedInstance] createServerFenceWith:polygonFenceRequest delegate:self];
+    
+}
 /**
  停留点分析
 
