@@ -222,6 +222,21 @@ export default class BaiduTrace {
     }
 
     /**
+     关键字检索
+     @param query 关键字
+     @param activeTime 过滤条件 UNIX时间戳，查询在此时间之后有定位信息上传的entity（loc_time>=activeTime）。
+     @param fieldName 排序方法 需要排序的字段
+     @param sortby 排序方法 1 asc 2 desc default 1 asc
+     @param outputCoordType 返回的坐标类型
+     @param pageIndex 分页索引
+     @param pageSize 分页大小
+     @param serviceID 轨迹服务的ID
+     @param tag 请求标志
+     */
+    static searchEntity(query,serviceID,tag,activeTime,fieldName,sortby = 1,outputCoordType = BTKCoordType.BTK_COORDTYPE_GCJ02,pageIndex = 1,pageSize = 10){
+        RNBaiduTrace.searchEntity(query,activeTime,fieldName,sortby,outputCoordType,pageIndex,pageSize,serviceID,tag);
+    }
+    /**
      矩形范围搜索
      @param latitude 矩形左下角的顶点坐标点坐标
      @param longitude 矩形左下角的顶点坐标点坐标

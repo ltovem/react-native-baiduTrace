@@ -86,6 +86,33 @@ RCT_EXPORT_METHOD(startBaiduTraceGather){
 RCT_EXPORT_METHOD(stopBaiduTraceGather){
     [[BTKAction sharedInstance] stopGather:self];
 }
+
+#pragma mark - 空间搜索
+/**
+ 关键字检索
+ @param query 关键字
+ @param activeTime 过滤条件 UNIX时间戳，查询在此时间之后有定位信息上传的entity（loc_time>=activeTime）。
+ @param fieldName 排序方法 需要排序的字段
+ @param sortby 排序方法 1 asc 2 desc default 1 asc
+ @param outputCoordType 返回的坐标类型
+ @param pageIndex 分页索引
+ @param pageSize 分页大小
+ @param serviceID 轨迹服务的ID
+ @param tag 请求标志
+ */
+RCT_EXPORT_METHOD(searchEntity:(NSString *)query activeTime:(NSUInteger )activeTime fieldName:(NSString *)fieldName sortType:(NSUInteger)sortType outputCoordType:(BTKCoordType)outputCoordType pageIndex:(NSUInteger)pageIndex pageSize:(NSUInteger)pageSize ServiceID:(NSUInteger)serviceID tag:(NSUInteger)tag){
+    // 设置过滤条件
+    BTKQueryEntityFilterOption *filterOption = [[BTKQueryEntityFilterOption alloc] init];
+    filterOption.activeTime = activeTime;
+    // 设置排序条件，返回的多个entity按照，定位时间'loc_time'的倒序排列
+    BTKSearchEntitySortByOption * sortbyOption = [[BTKSearchEntitySortByOption alloc] init];
+    sortbyOption.fieldName = fieldName;
+    sortbyOption.sortType = sortType;
+    // 构造请求对象
+    BTKSearchEntityRequest *request = [[BTKSearchEntityRequest alloc] initWithQueryKeyword:query filter:filterOption sortby:sortbyOption outputCoordType:outputCoordType pageIndex:pageIndex pageSize:pageSize ServiceID:serviceID tag:tag];
+    // 发起检索请求
+    [[BTKEntityAction sharedInstance] searchEntityWith:request delegate:self];
+}
 /**
  矩形范围搜索
  @param latitude 矩形左下角的顶点坐标点坐标
