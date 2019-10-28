@@ -446,7 +446,20 @@ export default class BaiduTrace {
     static batchQueryServerFenceHistoryAlarm(startTime,endTime,outputCoordType,pageIndex,pageSize,serviceID,tag){
         RNBaiduTrace.batchQueryServerFenceHistoryAlarm(startTime,endTime,outputCoordType,pageIndex,pageSize,serviceID,tag);
     }
+    /**
+     删除围栏，用于构造删除客户端地理围栏的请求对象
 
+     @param monitoredObject 围栏的监控对象
+     @param fenceIDs 围栏ID的数组，若为空，则删除监控对象上的所有地理围栏
+     @param tag 请求标志
+     */
+    static deleteLocalFence(monitoredObject,fenceIDs,tag){
+        RNBaiduTrace.deleteLocalFence(monitoredObject,fenceIDs,tag);
+    }
+    // TO Do
+    static updateLocalFenceCircleFence(){
+
+    }
     /**
      客户端围栏查询
      @param monitoredObject 监控对象的名称
