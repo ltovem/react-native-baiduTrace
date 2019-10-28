@@ -221,6 +221,24 @@ export default class BaiduTrace {
         RNBaiduTrace.stopBaiduTraceGather()
     }
 
+    /**
+     周边搜索
+     @param latitude 圆形检索区域的中心点坐标
+     @param longitude 圆形检索区域的中心点坐标
+     @param inputCoordType 中心点的坐标类型 BTKCoordType default  BTK_COORDTYPE_GCJ02
+     @param radius 圆形检索区域的半径
+     @param activeTime 过滤条件 UNIX时间戳，查询在此时间之后有定位信息上传的entity（loc_time>=activeTime）。
+     @param fieldName 排序方法 需要排序的字段
+     @param sortby 排序方法 1 asc 2 desc default 1 asc
+     @param outputCoordType 返回的坐标类型 BTKCoordType default  BTK_COORDTYPE_GCJ02
+     @param pageIndex 分页索引 default 1
+     @param pageSize 分页大小 default 10
+     @param serviceID 轨迹服务的ID
+     @param tag 请求标志
+     */
+    static aroundSearchEntity(latitude,longitude,serviceID,tag,radius,activeTime,fieldName,inputCoordType = BTKCoordType.BTK_COORDTYPE_GCJ02,sortby = 1,outputCoordType = BTKCoordType.BTK_COORDTYPE_GCJ02,pageIndex = 1,pageSize = 10){
+        RNBaiduTrace.aroundSearchEntity(latitude,longitude,inputCoordType,radius,activeTime,fieldName,sortby,outputCoordType,pageIndex,pageSize,serviceID,tag);
+    }
 
     /**
      查询某终端实体的经过轨迹纠偏后的实时位置

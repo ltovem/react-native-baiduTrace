@@ -19,7 +19,7 @@
 #define _onQueryTrackDistance @"onQueryTrackDistance"//里程计算
 #define Error @"error"
 
-@interface RNBaiduTrace ()<BTKTraceDelegate,BTKAnalysisDelegate,BTKTrackDelegate,BTKFenceDelegate>
+@interface RNBaiduTrace ()<BTKTraceDelegate,BTKAnalysisDelegate,BTKTrackDelegate,BTKFenceDelegate,BTKEntityDelegate>
 @property (nonatomic,copy)NSString *entryName;
 @end
 
@@ -86,6 +86,38 @@ RCT_EXPORT_METHOD(startBaiduTraceGather){
 RCT_EXPORT_METHOD(stopBaiduTraceGather){
     [[BTKAction sharedInstance] stopGather:self];
 }
+
+/**
+ 周边搜索
+ @param latitude 圆形检索区域的中心点坐标
+ @param longitude 圆形检索区域的中心点坐标
+ @param inputCoordType 中心点的坐标类型 BTKCoordType
+ @param radius 圆形检索区域的半径
+ @param activeTime 过滤条件 UNIX时间戳，查询在此时间之后有定位信息上传的entity（loc_time>=activeTime）。
+ @param fieldName 排序方法 需要排序的字段
+ @param sortby 排序方法 1 asc 2 desc default 1 asc
+ @param outputCoordType 返回的坐标类型
+ @param pageIndex 分页索引
+ @param pageSize 分页大小
+ @param serviceID 轨迹服务的ID
+ @param tag 请求标志
+ */
+RCT_EXPORT_METHOD(aroundSearchEntity:(double)latitude longitude:(double)longitude  inputCoordType:(BTKCoordType)inputCoordType radius:(NSUInteger)radius activeTime:(NSUInteger )activeTime fieldName:(NSString *)fieldName sortType:(NSUInteger)sortType outputCoordType:(BTKCoordType)outputCoordType pageIndex:(NSUInteger)pageIndex pageSize:(NSUInteger)pageSize ServiceID:(NSUInteger)serviceID tag:(NSUInteger)tag){
+   // 设置圆形的圆心
+   CLLocationCoordinate2D center = CLLocationCoordinate2DMake(latitude, longitude);
+   // 设置检索的过滤条件
+   BTKQueryEntityFilterOption *filterOption = [[BTKQueryEntityFilterOption alloc] init];
+   filterOption.activeTime = activeTime;
+   // 设置检索结果的排序方式
+   BTKSearchEntitySortByOption * sortbyOption = [[BTKSearchEntitySortByOption alloc] init];
+   sortbyOption.fieldName = fieldName;
+   sortbyOption.sortType = sortType;
+   // 构造检索请求对象
+   BTKAroundSearchEntityRequest *request = [[BTKAroundSearchEntityRequest alloc] initWithCenter:center inputCoordType:inputCoordType radius:radius filter:filterOption sortby:sortbyOption outputCoordType:outputCoordType pageIndex:pageIndex pageSize:pageSize ServiceID:serviceID tag:tag];
+   // 发起检索请求
+   [[BTKEntityAction sharedInstance] aroundSearchEntityWith:request delegate:self];
+}
+#pragma mark - 轨迹查询与纠偏
 /**
  查询某终端实体的经过轨迹纠偏后的实时位置
  @param entityName entity名称
@@ -994,6 +1026,91 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
 - (void)onAnalyzeStayPoint:(NSData *)response{
     [self sendEventWithEvent:_onAnalyzeStayPoint data:response];
 }
+
+#pragma mark - entity代理协议，entity相关操作的执行结果，通过本协议中的方法回调
+/**
+ 创建Entity终端实体的回调方法
+
+ @param response 创建结果
+ */
+-(void)onAddEntity:(NSData *)response{
+    
+}
+
+/**
+ 删除Entity终端实体的回调方法
+
+ @param response 删除结果
+ */
+-(void)onDeleteEntity:(NSData *)response{
+    
+}
+
+/**
+ 更新Entity终端实体的回调方法
+
+ @param response 更新结果
+ */
+-(void)onUpdateEntity:(NSData *)response{
+    
+}
+
+/**
+ 查询Entity终端实体的回调方法
+
+ @param response 查询结果
+ */
+-(void)onQueryEntity:(NSData *)response{
+    
+}
+
+#pragma mark - entity终端检索 
+
+/**
+ 关键字检索Entity终端实体的回调方法
+
+ @param response 检索结果
+ */
+-(void)onEntitySearch:(NSData *)response{
+    
+}
+
+/**
+ 矩形区域检索Entity终端实体的回调方法
+
+ @param response 检索结果
+ */
+-(void)onEntityBoundSearch:(NSData *)response{
+    
+}
+
+/**
+ 圆形区域检索Entity终端实体的回调方法
+
+ @param response 检索结果
+ */
+-(void)onEntityAroundSearch:(NSData *)response{
+    
+}
+
+/**
+ 多边形区域检索Entity终端实体的回调方法
+
+ @param response 检索结果
+ */
+-(void)onEntityPolygonSearch:(NSData *)response{
+    
+}
+
+/**
+ 行政区域内检索Entity终端实体的回调方法
+
+ @param response 检索结果
+ */
+-(void)onEntityDistrictSearch:(NSData *)response{
+    
+}
+#pragma mark - 驾驶行为分析的回调方法
 /**
 驾驶行为分析的回调方法
 
