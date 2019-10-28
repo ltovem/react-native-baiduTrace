@@ -338,7 +338,7 @@ RCT_EXPORT_METHOD(queryServerFenceStatusByCustomLocation:(NSString *)monitoredOb
     [[BTKFenceAction sharedInstance] queryServerFenceStatusByCustomLocationWith:request delegate:self];
 }
 /**
- 查询“entityA”这个终端实体上的所有服务端地理围栏，在过去12小时内的所有报警纪录。
+ 查询“entityA”这个终端实体上的所有服务端地理围栏，。
  @param monitoredObject 被监控对象的名称
  @param fenceIDs 地理围栏实体的ID列表
  @param startTime 时间段起点
@@ -353,6 +353,23 @@ RCT_EXPORT_METHOD(queryServerFenceHistoryAlarm:(NSString *)monitoredObject fence
     BTKQueryServerFenceHistoryAlarmRequest *request = [[BTKQueryServerFenceHistoryAlarmRequest alloc] initWithMonitoredObject:monitoredObject fenceIDs:fenceIDs startTime:startTime endTime:endTime outputCoordType:outputCoordType ServiceID:serviceID tag:tag];
     // 发起查询请求
     [[BTKFenceAction sharedInstance] queryServerFenceHistoryAlarmWith:request delegate:self];
+}
+/**
+ 所有的终端实体上的所有服务端地理围栏
+ @param startTime 开始时间
+ @param endTime 结束时间
+ @param outputCoordType 返回坐标类型 BTKCoordType
+ @param pageIndex 分页索引
+ @param pageSize 分页大小
+ @param serviceID 轨迹服务的ID
+ @param tag 请求标志
+ */
+RCT_EXPORT_METHOD(batchQueryServerFenceHistoryAlarm:(NSUInteger)startTime endTime:(NSUInteger)endTime outputCoordType:(BTKCoordType)outputCoordType pageIndex:(NSUInteger)pageIndex pageSize:(NSUInteger)pageSize ServiceID:(NSUInteger)serviceID tag:(NSUInteger)tag){
+    
+    // 构建请求对象
+    BTKBatchQueryServerFenceHistoryAlarmRequest *request = [[BTKBatchQueryServerFenceHistoryAlarmRequest alloc] initWithStartTime:startTime endTime:endTime outputCoordType:outputCoordType pageIndex:pageIndex pageSize:pageSize ServiceID:serviceID tag:tag];
+    // 发起查询请求
+    [[BTKFenceAction sharedInstance] batchQueryServerFenceHistoryAlarmWith:request delegate:self];
 }
 /**
  停留点分析
