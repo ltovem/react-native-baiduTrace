@@ -207,6 +207,90 @@ RCT_EXPORT_METHOD(deleteServerFence:(NSString *)monitoredObject fenceIDs:(NSArra
     // 发起删除请求
     [[BTKFenceAction sharedInstance] deleteServerFenceWith:request delegate:self];
 }
+
+/**
+    更新服务端圆形地理围栏
+    @param latitude 圆心坐标
+    @param longitude 圆心坐标
+    @param radius 半径
+    @param coordType 圆心的坐标类型
+    @param denoiseAccuracy 去燥精度 单位：米。每个轨迹点都有一个定位误差半径radius，这个值越大，代表定位越不准确，可能是噪点。围栏计算时，如果噪点也参与计算，会造成误报的情况。设置denoiseAccuray可控制，当轨迹点的定位误差半径大于设置值时，就会把该轨迹点当做噪点，不参与围栏计算。如果不想去噪，设置为0即可。
+    @param fenceName 围栏名称
+    @param monitoredObject 围栏监控对象的名称
+    @param fenceID 要更新的地理围栏ID
+    @param serviceID 轨迹服务的ID
+    @param tag 请求标志
+ */
+RCT_EXPORT_METHOD(updateServerCircleFence:(double)latitude longitude:(double)longitude radius:(double)radius coordType:(BTKCoordType)coordType denoiseAccuracy:(NSUInteger)denoiseAccuracy fenceName:(NSString *)fenceName monitoredObject:(NSString *)monitoredObject fenceID:(NSUInteger)fenceID serviceID:(NSUInteger)serviceID tag:(NSUInteger)tag){
+    // 圆心
+    CLLocationCoordinate2D center = CLLocationCoordinate2DMake(latitude, longitude);
+    // 构造将要更新的新的围栏对象
+    BTKServerCircleFence *fence = [[BTKServerCircleFence alloc] initWithCenter:center radius:radius coordType:coordType denoiseAccuracy:50 fenceName:fenceName monitoredObject:monitoredObject];
+    // 构造请求对象
+    BTKUpdateServerFenceRequest *circleRequest = [[BTKUpdateServerFenceRequest alloc] initWithServerCircleFence:fence fenceID:fenceID serviceID:serviceID tag:tag];
+    // 发起更新请求
+    [[BTKFenceAction sharedInstance] updateServerFenceWith:circleRequest delegate:self];
+}
+
+/**
+ 更新服务端多边形围栏
+ @param vertexes 多边形的顶点坐标数组，数组中每一项为 {"latitude":"36.6","longitude":"133.00"}类型
+ @param coordType 顶点坐标的坐标类型
+ @param denoiseAccuracy 去燥精度 单位：米。每个轨迹点都有一个定位误差半径radius，这个值越大，代表定位越不准确，可能是噪点。围栏计算时，如果噪点也参与计算，会造成误报的情况。设置denoiseAccuray可控制，当轨迹点的定位误差半径大于设置值时，就会把该轨迹点当做噪点，不参与围栏计算。如果不想去噪，设置为0即可。
+ @param fenceName 地理围栏的名称
+ @param monitoredObject 地理围栏监控对象的名称
+ @param fenceID 要更新的地理围栏ID
+ @param serviceID 轨迹服务的ID
+ @param tag 请求标志
+ */
+RCT_EXPORT_METHOD(updateServerPolygonFence:(NSArray *)vertexes coordType:(BTKCoordType)coordType  denoiseAccuracy:(NSUInteger)denoiseAccuracy fenceName:(NSString *)fenceName monitoredObject:(NSString *)monitoredObject fenceID:(NSUInteger)fenceID serviceID:(NSUInteger)serviceID tag:(NSUInteger)tag){
+//    NSMutableArray *verArray = [NSMutableArray array];
+//    for (NSDictionary *temp in vertexes) {
+//        CLLocationCoordinate2D
+//        CLLocationCoordinate2D center = CLLocationCoordinate2DMake([temp[@"latitude"] doubleValue], [temp[@"longitude"] doubleValue]);
+//        [verArray addObject:center];
+//    }
+    BTKServerPolygonFence *fence = [[BTKServerPolygonFence alloc]initWithVertexes:vertexes coordType:coordType denoiseAccuracy:denoiseAccuracy fenceName:fenceName monitoredObject:monitoredObject];
+    BTKUpdateServerFenceRequest *polygonFenceRequest = [[BTKUpdateServerFenceRequest alloc]initWithServerPolygonFence:fence fenceID:fenceID serviceID:serviceID tag:tag];
+    [[BTKFenceAction sharedInstance] updateServerFenceWith:polygonFenceRequest delegate:self];
+    
+}
+/**
+更新服务端线性围栏
+@param vertexes 多边形的顶点坐标数组，数组中每一项为 {"latitude":"36.6","longitude":"133.00"}类型
+@param coordType 顶点坐标的坐标类型
+@param offset 偏离距离 偏移距离（若偏离折线距离超过该距离即报警），单位：米 示例：200
+@param denoiseAccuracy 去燥精度 单位：米。每个轨迹点都有一个定位误差半径radius，这个值越大，代表定位越不准确，可能是噪点。围栏计算时，如果噪点也参与计算，会造成误报的情况。设置denoiseAccuray可控制，当轨迹点的定位误差半径大于设置值时，就会把该轨迹点当做噪点，不参与围栏计算。如果不想去噪，设置为0即可。
+@param fenceName 地理围栏的名称
+@param monitoredObject 地理围栏监控对象的名称
+@param fenceID 要更新的地理围栏ID
+@param serviceID 轨迹服务的ID
+@param tag 请求标志
+*/
+RCT_EXPORT_METHOD(updateServerPolylineFence:(NSArray *)vertexes coordType:(BTKCoordType)coordType offset:(NSInteger)offset denoiseAccuracy:(NSUInteger)denoiseAccuracy fenceName:(NSString *)fenceName monitoredObject:(NSString *)monitoredObject fenceID:(NSUInteger)fenceID serviceID:(NSUInteger)serviceID tag:(NSUInteger)tag){
+    
+    BTKServerPolylineFence *fence = [[BTKServerPolylineFence alloc]initWithVertexes:vertexes coordType:coordType offset:offset denoiseAccuracy:denoiseAccuracy fenceName:fenceName monitoredObject:monitoredObject];
+    BTKUpdateServerFenceRequest *polygonLineFenceRequest = [[BTKUpdateServerFenceRequest alloc]initWithServerPolylineFence:fence fenceID:fenceID serviceID:serviceID tag:tag];
+    [[BTKFenceAction sharedInstance] updateServerFenceWith:polygonLineFenceRequest delegate:self];
+}
+
+/**
+ 更新服务端行政区划围栏
+ @param keyword 行政区划关键字
+ @param denoiseAccuracy 去噪精度
+ @param fenceName 围栏名称
+ @param monitoredObject 监控对象名称
+ @param fenceID 要更新的地理围栏ID
+ @param serviceID 轨迹服务的ID
+ @param tag 请求标志
+ */
+RCT_EXPORT_METHOD(updateServerDistrictFence:(NSString *)keyword denoiseAccuracy:(NSUInteger)denoiseAccuracy fenceName:(NSString *)fenceName monitoredObject:(NSString *)monitoredObject fenceID:(NSUInteger)fenceID serviceID:(NSUInteger)serviceID tag:(NSUInteger)tag){
+    
+    BTKServerDistrictFence *fence = [[BTKServerDistrictFence alloc]initWithKeyword:keyword denoiseAccuracy:denoiseAccuracy fenceName:fenceName monitoredObject:monitoredObject];
+    
+    BTKUpdateServerFenceRequest *DistrictFence = [[BTKUpdateServerFenceRequest alloc]initWithServerDistrictFence:fence fenceID:fenceID serviceID:serviceID tag:tag];
+    [[BTKFenceAction sharedInstance] updateServerFenceWith:DistrictFence delegate:self];
+}
 /**
  停留点分析
 
