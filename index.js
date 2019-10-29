@@ -27,6 +27,30 @@ const onAnalyzeStayPoint = "onAnalyzeStayPoint" //停留点分析
 const onEntityDistrictSearch = "onEntityDistrictSearch" //行政区域内检索Entity终端实体的回调方法
 
 
+const onQueryHistoryTrack = "onQueryHistoryTrack"//轨迹查询的回调方法
+const onQueryTrackCacheInfo = "onQueryTrackCacheInfo"//缓存查询的回调方法
+const onClearTrackCache = "onClearTrackCache"//清空缓存的回调方法
+const onCreateLocalFence = "onCreateLocalFence"//创建客户端地理围栏的回调方法
+const onDeleteLocalFence = "onDeleteLocalFence"// 删除客户端地理围栏的回调方法
+const onUpdateLocalFence = "onUpdateLocalFence"//更新客户端地理围栏的回调方法
+const onQueryLocalFence = "onQueryLocalFence"//查询客户端地理围栏的回调方法
+const onQueryLocalFenceStatus = "onQueryLocalFenceStatus"//查询监控对象和客户端地理围栏的位置关系的回调方法
+const onQueryLocalFenceStatusByCustomLocation = "onQueryLocalFenceStatusByCustomLocation"//根据自定义位置，查询监控对象和客户端地理围栏的位置关系的回调方法
+const onQueryLocalFenceHistoryAlarm = "onQueryLocalFenceHistoryAlarm"//查询客户端地理围栏历史报警信息的回调方法
+const onCreateServerFence = "onCreateServerFence"//创建服务端地理围栏的回调方法
+const onDeleteServerFence = "onDeleteServerFence"//删除服务端地理围栏的回调方法
+const onUpdateServerFence = "onUpdateServerFence"//修改服务端地理围栏的回调方法
+const onQueryServerFence = "onQueryServerFence"//查询服务端地理围栏的回调方法
+const onQueryServerFenceStatus = "onQueryServerFenceStatus"//查询监控对象在服务端地理围栏内外的回调方法
+const onQueryServerFenceStatusByCustomLocation = "onQueryServerFenceStatusByCustomLocation"//根据指定的位置查询被监控对象的状态的回调方法
+const onQueryServerFenceHistoryAlarm = "onQueryServerFenceHistoryAlarm"//查询监控对象的服务端围栏报警信息的回调方法
+const onBatchQueryServerFenceHistoryAlarm = "onBatchQueryServerFenceHistoryAlarm"// 批量同步某service的服务端地理围栏报警信息的回调方法
+const onAddMonitoredObject = "onAddMonitoredObject"//给服务端围栏添加监控对象的回调方法
+const onDeleteMonitoredObject = "onDeleteMonitoredObject"//删除服务端围栏的监控对象的回调方法
+const onListMonitoredObject = "onListMonitoredObject"//查询服务端围栏的监控对象的回调方法
+
+
+
 const onAddEntity = "onAddEntity"//创建Entity终端实体的回调方法
 const onDeleteEntity = "onDeleteEntity"//删除Entity终端实体的回调方法
 const onUpdateEntity = "onUpdateEntity"//更新Entity终端实体的回调方法
@@ -800,6 +824,224 @@ export default class BaiduTrace {
 
 
 
+
+
+
+
+
+
+
+    /**
+     轨迹查询的回调方法
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onQueryHistoryTrack(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onQueryHistoryTrack, result => {
+                callback(result)
+            })
+    }
+    /**
+     缓存查询的回调方法
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onQueryTrackCacheInfo(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onQueryTrackCacheInfo, result => {
+                callback(result)
+            })
+    }
+    /**
+     清空缓存的回调方法
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onClearTrackCache(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onClearTrackCache, result => {
+                callback(result)
+            })
+    }
+    /**
+     创建客户端地理围栏的回调方法
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onCreateLocalFence(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onCreateLocalFence, result => {
+                callback(result)
+            })
+    }
+    /**
+     删除客户端地理围栏的回调方法
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onDeleteLocalFence(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onDeleteLocalFence, result => {
+                callback(result)
+            })
+    }
+    /**
+     更新客户端地理围栏的回调方法
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onUpdateLocalFence(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onUpdateLocalFence, result => {
+                callback(result)
+            })
+    }
+    /**
+     查询客户端地理围栏的回调方法
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onQueryLocalFence(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onQueryLocalFence, result => {
+                callback(result)
+            })
+    }
+    /**
+     查询监控对象和客户端地理围栏的位置关系的回调方法
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onQueryLocalFenceStatus(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onQueryLocalFenceStatus, result => {
+                callback(result)
+            })
+    }
+    /**
+     根据自定义位置，查询监控对象和客户端地理围栏的位置关系的回调方法
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onQueryLocalFenceStatusByCustomLocation(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onQueryLocalFenceStatusByCustomLocation, result => {
+                callback(result)
+            })
+    }
+    /**
+     查询客户端地理围栏历史报警信息的回调方法
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onQueryLocalFenceHistoryAlarm(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onQueryLocalFenceHistoryAlarm, result => {
+                callback(result)
+            })
+    }
+    /**
+     创建服务端地理围栏的回调方法
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onCreateServerFence(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onCreateServerFence, result => {
+                callback(result)
+            })
+    }
+    /**
+     删除服务端地理围栏的回调方法
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onDeleteServerFence(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onDeleteServerFence, result => {
+                callback(result)
+            })
+    }
+    /**
+     修改服务端地理围栏的回调方法
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onUpdateServerFence(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onUpdateServerFence, result => {
+                callback(result)
+            })
+    }
+    /**
+     查询服务端地理围栏的回调方法
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onQueryServerFence(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onQueryServerFence, result => {
+                callback(result)
+            })
+    }
+    /**
+     查询监控对象在服务端地理围栏内外的回调方法
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onQueryServerFenceStatus(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onQueryServerFenceStatus, result => {
+                callback(result)
+            })
+    }
+    /**
+     根据指定的位置查询被监控对象的状态的回调方法
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onQueryServerFenceStatusByCustomLocation(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onQueryServerFenceStatusByCustomLocation, result => {
+                callback(result)
+            })
+    }
+    /**
+     查询监控对象的服务端围栏报警信息的回调方法
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onQueryServerFenceHistoryAlarm(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onQueryServerFenceHistoryAlarm, result => {
+                callback(result)
+            })
+    }
+    /**
+     批量同步某service的服务端地理围栏报警信息的回调方法
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onBatchQueryServerFenceHistoryAlarm(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onBatchQueryServerFenceHistoryAlarm, result => {
+                callback(result)
+            })
+    }
+    /**
+     给服务端围栏添加监控对象的回调方法
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onAddMonitoredObject(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onAddMonitoredObject, result => {
+                callback(result)
+            })
+    }
+    /**
+     删除服务端围栏的监控对象的回调方法
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onDeleteMonitoredObject(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onDeleteMonitoredObject, result => {
+                callback(result)
+            })
+    }
+    /**
+     查询服务端围栏的监控对象的回调方法
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onListMonitoredObject(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onListMonitoredObject, result => {
+                callback(result)
+            })
+    }
+    //--------
     /**
      创建Entity终端实体的回调方法
      @param {Function} cb = (Object）=> {{"response":data}

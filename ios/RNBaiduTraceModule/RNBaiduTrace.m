@@ -19,7 +19,27 @@
 #define _onQueryTrackDistance @"onQueryTrackDistance"//里程计算
 
 
-
+#define _onQueryHistoryTrack @"onQueryHistoryTrack"//轨迹查询的回调方法
+#define _onQueryTrackCacheInfo @"onQueryTrackCacheInfo"//缓存查询的回调方法
+#define _onClearTrackCache @"onClearTrackCache"//清空缓存的回调方法
+#define _onCreateLocalFence @"onCreateLocalFence"//创建客户端地理围栏的回调方法
+#define _onDeleteLocalFence @"onDeleteLocalFence"// 删除客户端地理围栏的回调方法
+#define _onUpdateLocalFence @"onUpdateLocalFence"//更新客户端地理围栏的回调方法
+#define _onQueryLocalFence @"onQueryLocalFence"//查询客户端地理围栏的回调方法
+#define _onQueryLocalFenceStatus @"onQueryLocalFenceStatus"//查询监控对象和客户端地理围栏的位置关系的回调方法
+#define _onQueryLocalFenceStatusByCustomLocation @"onQueryLocalFenceStatusByCustomLocation"//根据自定义位置，查询监控对象和客户端地理围栏的位置关系的回调方法
+#define _onQueryLocalFenceHistoryAlarm @"onQueryLocalFenceHistoryAlarm"//查询客户端地理围栏历史报警信息的回调方法
+#define _onCreateServerFence @"onCreateServerFence"//创建服务端地理围栏的回调方法
+#define _onDeleteServerFence @"onDeleteServerFence"//删除服务端地理围栏的回调方法
+#define _onUpdateServerFence @"onUpdateServerFence"//修改服务端地理围栏的回调方法
+#define _onQueryServerFence @"onQueryServerFence"//查询服务端地理围栏的回调方法
+#define _onQueryServerFenceStatus @"onQueryServerFenceStatus"//查询监控对象在服务端地理围栏内外的回调方法
+#define _onQueryServerFenceStatusByCustomLocation @"onQueryServerFenceStatusByCustomLocation"//根据指定的位置查询被监控对象的状态的回调方法
+#define _onQueryServerFenceHistoryAlarm @"onQueryServerFenceHistoryAlarm"//查询监控对象的服务端围栏报警信息的回调方法
+#define _onBatchQueryServerFenceHistoryAlarm @"onBatchQueryServerFenceHistoryAlarm"// 批量同步某service的服务端地理围栏报警信息的回调方法
+#define _onAddMonitoredObject @"onAddMonitoredObject"//给服务端围栏添加监控对象的回调方法
+#define _onDeleteMonitoredObject @"onDeleteMonitoredObject"//删除服务端围栏的监控对象的回调方法
+#define _onListMonitoredObject @"onListMonitoredObject"//查询服务端围栏的监控对象的回调方法
 
 #define _onAddEntity @"onAddEntity"//创建Entity终端实体的回调方法
 #define _onDeleteEntity @"onDeleteEntity"//删除Entity终端实体的回调方法
@@ -943,14 +963,14 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
 -(void)onQueryTrackDistance:(NSData *)response{
     [self sendEventWithEvent:_onQueryTrackDistance data:response];
 }
-
+#pragma mark ---
 /**
  轨迹查询的回调方法
 
  @param response 查询结果
  */
 -(void)onQueryHistoryTrack:(NSData *)response{
-    
+    [self sendEventWithEvent:_onQueryHistoryTrack data:response];
 }
 
 /**
@@ -959,7 +979,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
  @param response 查询结果
  */
 -(void)onQueryTrackCacheInfo:(NSData *)response{
-    
+    [self sendEventWithEvent:_onQueryTrackCacheInfo data:response];
 }
 
 /**
@@ -968,7 +988,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
  @param response 清空操作的结果
  */
 -(void)onClearTrackCache:(NSData *)response{
-    
+    [self sendEventWithEvent:_onClearTrackCache data:response];
 }
 
 #pragma mark - 客户端围栏 实体管理 -delegate
@@ -978,7 +998,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
  @param response 创建客户端围栏的结果
  */
 -(void)onCreateLocalFence:(NSData *)response{
-    
+    [self sendEventWithEvent:_onCreateLocalFence data:response];
 }
 
 /**
@@ -987,7 +1007,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
  @param response 创建客户端围栏的结果
  */
 -(void)onDeleteLocalFence:(NSData *)response{
-    
+    [self sendEventWithEvent:_onDeleteLocalFence data:response];
 }
 
 /**
@@ -996,7 +1016,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
  @param response 创建客户端围栏的结果
  */
 -(void)onUpdateLocalFence:(NSData *)response{
-    
+    [self sendEventWithEvent:_onUpdateLocalFence data:response];
 }
 
 /**
@@ -1005,7 +1025,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
  @param response 创建客户端围栏的结果
  */
 -(void)onQueryLocalFence:(NSData *)response{
-    
+    [self sendEventWithEvent:_onQueryLocalFence data:response];
 }
 
 
@@ -1017,7 +1037,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
  @param response 查询结果
  */
 -(void)onQueryLocalFenceStatus:(NSData *)response{
-    
+    [self sendEventWithEvent:_onQueryLocalFenceStatus data:response];
 }
 
 /**
@@ -1026,7 +1046,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
  @param response 查询结果
  */
 -(void)onQueryLocalFenceStatusByCustomLocation:(NSData *)response{
-    
+    [self sendEventWithEvent:_onQueryLocalFenceStatusByCustomLocation data:response];
 }
 
 /**
@@ -1035,7 +1055,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
  @param response 查询结果
  */
 -(void)onQueryLocalFenceHistoryAlarm:(NSData *)response{
-    
+    [self sendEventWithEvent:_onQueryLocalFenceHistoryAlarm data:response];
 }
 
 
@@ -1046,7 +1066,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
  @param response 创建服务端围栏的结果
  */
 -(void)onCreateServerFence:(NSData *)response{
-    
+    [self sendEventWithEvent:_onCreateServerFence data:response];
 }
 
 /**
@@ -1055,7 +1075,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
  @param response 删除服务端围栏的结果
  */
 -(void)onDeleteServerFence:(NSData *)response{
-    
+    [self sendEventWithEvent:_onDeleteServerFence data:response];
 }
 
 /**
@@ -1064,7 +1084,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
  @param response 修改服务端围栏的结果
  */
 -(void)onUpdateServerFence:(NSData *)response{
-    
+    [self sendEventWithEvent:_onUpdateServerFence data:response];
 }
 
 /**
@@ -1073,7 +1093,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
  @param response 查询服务端围栏的结果
  */
 -(void)onQueryServerFence:(NSData *)response{
-    
+    [self sendEventWithEvent:_onQueryServerFence data:response];
 }
 
 
@@ -1084,7 +1104,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
  @param response 查询结果
  */
 -(void)onQueryServerFenceStatus:(NSData *)response{
-    
+    [self sendEventWithEvent:_onQueryServerFenceStatus data:response];
 }
 
 /**
@@ -1093,7 +1113,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
  @param response 查询结果
  */
 -(void)onQueryServerFenceStatusByCustomLocation:(NSData *)response{
-    
+    [self sendEventWithEvent:_onQueryServerFenceStatusByCustomLocation data:response];
 }
 
 /**
@@ -1102,7 +1122,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
  @param response 查询结果
  */
 -(void)onQueryServerFenceHistoryAlarm:(NSData *)response{
-    
+    [self sendEventWithEvent:_onQueryServerFenceHistoryAlarm data:response];
 }
 
 /**
@@ -1111,7 +1131,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
  @param response 查询结果
  */
 -(void)onBatchQueryServerFenceHistoryAlarm:(NSData *)response{
-    
+    [self sendEventWithEvent:_onBatchQueryServerFenceHistoryAlarm data:response];
 }
 
 #pragma mark - 服务端围栏 监控对象管理
@@ -1121,7 +1141,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
  @param response 查询结果
  */
 -(void)onAddMonitoredObject:(NSData *)response{
-    
+    [self sendEventWithEvent:_onAddMonitoredObject data:response];
 }
 
 /**
@@ -1130,7 +1150,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
  @param response 查询结果
  */
 -(void)onDeleteMonitoredObject:(NSData *)response{
-    
+    [self sendEventWithEvent:_onDeleteMonitoredObject data:response];
 }
 
 /**
@@ -1139,9 +1159,9 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
  @param response 查询结果
  */
 -(void)onListMonitoredObject:(NSData *)response{
-    
+    [self sendEventWithEvent:_onListMonitoredObject data:response];
 }
-
+#pragma mark - - -
 #pragma mark - 轨迹分析delegete
 /**
 停留点分析的回调方法
@@ -1255,7 +1275,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
 //事件处理
 - (NSArray<NSString *> *)supportedEvents
 {
-    return @[_onStartServer,_onStopService,_onStartGather,_onStopGather,_onGetCustomDataResult,_onChangeGatherAndPackIntervals,_onSetCacheMaxSize,_onGetPushMessage,_onAnalyzeStayPoint,_onAnalyzeStayPoint,_onQueryTrackDistance,_onEntityDistrictSearch,_onEntityPolygonSearch,_onEntityAroundSearch,_onEntityBoundSearch,_onEntitySearch,_onQueryEntity,_onUpdateEntity,_onDeleteEntity,_onAddEntity];
+    return @[_onStartServer,_onStopService,_onStartGather,_onStopGather,_onGetCustomDataResult,_onChangeGatherAndPackIntervals,_onSetCacheMaxSize,_onGetPushMessage,_onAnalyzeStayPoint,_onAnalyzeStayPoint,_onQueryTrackDistance,_onEntityDistrictSearch,_onEntityPolygonSearch,_onEntityAroundSearch,_onEntityBoundSearch,_onEntitySearch,_onQueryEntity,_onUpdateEntity,_onDeleteEntity,_onAddEntity,_onListMonitoredObject,_onDeleteMonitoredObject,_onAddMonitoredObject,_onBatchQueryServerFenceHistoryAlarm,_onQueryServerFenceHistoryAlarm,_onQueryServerFenceStatusByCustomLocation,_onQueryServerFenceStatus,_onQueryServerFence,_onUpdateServerFence,_onDeleteServerFence,_onCreateServerFence,_onQueryLocalFenceHistoryAlarm,_onQueryLocalFenceStatusByCustomLocation,_onQueryLocalFenceStatus,_onQueryLocalFence,_onUpdateLocalFence,_onDeleteLocalFence,_onCreateLocalFence,_onClearTrackCache,_onQueryTrackCacheInfo,_onQueryHistoryTrack];
 }
 @end
   
