@@ -27,6 +27,7 @@ const onAnalyzeStayPoint = "onAnalyzeStayPoint" //停留点分析
 const onEntityDistrictSearch = "onEntityDistrictSearch" //行政区域内检索Entity终端实体的回调方法
 
 
+const onAddEntity = "onAddEntity"//创建Entity终端实体的回调方法
 const onDeleteEntity = "onDeleteEntity"//删除Entity终端实体的回调方法
 const onUpdateEntity = "onUpdateEntity"//更新Entity终端实体的回调方法
 const onQueryEntity = "onQueryEntity"//查询Entity终端实体的回调方法
@@ -799,6 +800,16 @@ export default class BaiduTrace {
 
 
 
+    /**
+     创建Entity终端实体的回调方法
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onAddEntity(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onAddEntity, result => {
+                callback(result)
+            })
+    }
     /**
      删除Entity终端实体的回调方法
      @param {Function} cb = (Object）=> {{"response":data}

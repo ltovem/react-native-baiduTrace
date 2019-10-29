@@ -21,6 +21,7 @@
 
 
 
+#define _onAddEntity @"onAddEntity"//创建Entity终端实体的回调方法
 #define _onDeleteEntity @"onDeleteEntity"//删除Entity终端实体的回调方法
 #define _onUpdateEntity @"onUpdateEntity"//更新Entity终端实体的回调方法
 #define _onQueryEntity @"onQueryEntity"//查询Entity终端实体的回调方法
@@ -1158,7 +1159,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
  @param response 创建结果
  */
 -(void)onAddEntity:(NSData *)response{
-    
+    [self sendEventWithEvent:_onAddEntity data:response];
 }
 
 /**
@@ -1254,7 +1255,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
 //事件处理
 - (NSArray<NSString *> *)supportedEvents
 {
-    return @[_onStartServer,_onStopService,_onStartGather,_onStopGather,_onGetCustomDataResult,_onChangeGatherAndPackIntervals,_onSetCacheMaxSize,_onGetPushMessage,_onAnalyzeStayPoint,_onAnalyzeStayPoint,_onQueryTrackDistance,_onEntityDistrictSearch,_onEntityPolygonSearch,_onEntityAroundSearch,_onEntityBoundSearch,_onEntitySearch,_onQueryEntity,_onUpdateEntity,_onDeleteEntity];
+    return @[_onStartServer,_onStopService,_onStartGather,_onStopGather,_onGetCustomDataResult,_onChangeGatherAndPackIntervals,_onSetCacheMaxSize,_onGetPushMessage,_onAnalyzeStayPoint,_onAnalyzeStayPoint,_onQueryTrackDistance,_onEntityDistrictSearch,_onEntityPolygonSearch,_onEntityAroundSearch,_onEntityBoundSearch,_onEntitySearch,_onQueryEntity,_onUpdateEntity,_onDeleteEntity,_onAddEntity];
 }
 @end
   
