@@ -18,6 +18,7 @@
 #define _onAnalyzeStayPoint @"onAnalyzeStayPoint" //停留点分析
 #define _onQueryTrackDistance @"onQueryTrackDistance"//里程计算
 #define _onEntityDistrictSearch @"onEntityDistrictSearch" //行政区域内检索Entity终端实体的回调方法
+#define _onEntityPolygonSearch @"onEntityPolygonSearch"//多边形区域检索Entity终端实体的回调方法
 
 #define Error @"error"
 
@@ -1212,7 +1213,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
  @param response 检索结果
  */
 -(void)onEntityPolygonSearch:(NSData *)response{
-    
+    [self sendEventWithEvent:_onEntityPolygonSearch data:response];
 }
 
 /**
@@ -1221,7 +1222,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
  @param response 检索结果
  */
 -(void)onEntityDistrictSearch:(NSData *)response{
-    
+    [self sendEventWithEvent:_onEntityDistrictSearch data:response];
 }
 #pragma mark - 驾驶行为分析的回调方法
 /**
@@ -1243,7 +1244,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
 //事件处理
 - (NSArray<NSString *> *)supportedEvents
 {
-    return @[_onStartServer,_onStopService,_onStartGather,_onStopGather,_onGetCustomDataResult,_onChangeGatherAndPackIntervals,_onSetCacheMaxSize,_onGetPushMessage,_onAnalyzeStayPoint,_onAnalyzeStayPoint,_onQueryTrackDistance,_onEntityDistrictSearch];
+    return @[_onStartServer,_onStopService,_onStartGather,_onStopGather,_onGetCustomDataResult,_onChangeGatherAndPackIntervals,_onSetCacheMaxSize,_onGetPushMessage,_onAnalyzeStayPoint,_onAnalyzeStayPoint,_onQueryTrackDistance,_onEntityDistrictSearch,_onEntityPolygonSearch];
 }
 @end
   

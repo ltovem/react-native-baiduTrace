@@ -25,6 +25,7 @@ const onAnalyzeDrivingBehaviour = "onAnalyzeDrivingBehaviour";// 驾驶行为分
 const onAnalyzeStayPoint = "onAnalyzeStayPoint" //停留点分析
 
 const onEntityDistrictSearch = "onEntityDistrictSearch" //行政区域内检索Entity终端实体的回调方法
+const onEntityPolygonSearch = "onEntityPolygonSearch" //多边形区域检索Entity终端实体的回调方法
 
 export const RNBaiduTrace = NativeModules.RNBaiduTrace
 /**
@@ -787,6 +788,16 @@ export default class BaiduTrace {
     static onEntityDistrictSearch(callback){
         listeners[callback] = DeviceEventEmitter.addListener(
             onEntityDistrictSearch, result => {
+                callback(result)
+            })
+    }
+    /**
+     多边形区域检索Entity终端实体的回调方法
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onEntityPolygonSearch(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onEntityPolygonSearch, result => {
                 callback(result)
             })
     }
