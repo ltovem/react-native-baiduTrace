@@ -17,6 +17,8 @@
 #define _onAnalyzeDrivingBehaviour @"onAnalyzeDrivingBehaviour" //驾驶行为分析
 #define _onAnalyzeStayPoint @"onAnalyzeStayPoint" //停留点分析
 #define _onQueryTrackDistance @"onQueryTrackDistance"//里程计算
+#define _onEntityDistrictSearch @"onEntityDistrictSearch" //行政区域内检索Entity终端实体的回调方法
+
 #define Error @"error"
 
 @interface RNBaiduTrace ()<BTKTraceDelegate,BTKAnalysisDelegate,BTKTrackDelegate,BTKFenceDelegate,BTKEntityDelegate>
@@ -1241,7 +1243,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
 //事件处理
 - (NSArray<NSString *> *)supportedEvents
 {
-    return @[_onStartServer,_onStopService,_onStartGather,_onStopGather,_onGetCustomDataResult,_onChangeGatherAndPackIntervals,_onSetCacheMaxSize,_onGetPushMessage,_onAnalyzeStayPoint,_onAnalyzeStayPoint,_onQueryTrackDistance];
+    return @[_onStartServer,_onStopService,_onStartGather,_onStopGather,_onGetCustomDataResult,_onChangeGatherAndPackIntervals,_onSetCacheMaxSize,_onGetPushMessage,_onAnalyzeStayPoint,_onAnalyzeStayPoint,_onQueryTrackDistance,_onEntityDistrictSearch];
 }
 @end
   
