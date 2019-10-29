@@ -27,6 +27,9 @@ const onAnalyzeStayPoint = "onAnalyzeStayPoint" //停留点分析
 const onEntityDistrictSearch = "onEntityDistrictSearch" //行政区域内检索Entity终端实体的回调方法
 
 
+const onDeleteEntity = "onDeleteEntity"//删除Entity终端实体的回调方法
+const onUpdateEntity = "onUpdateEntity"//更新Entity终端实体的回调方法
+const onQueryEntity = "onQueryEntity"//查询Entity终端实体的回调方法
 const onEntitySearch = "onEntitySearch"//关键字检索Entity终端实体的回调方法
 const onEntityBoundSearch = "onEntityBoundSearch"//矩形区域检索Entity终端实体的回调方法
 const onEntityAroundSearch = "onEntityAroundSearch" //圆形区域检索Entity终端实体的回调方法
@@ -786,6 +789,7 @@ export default class BaiduTrace {
             })
     }
 
+//++++++++++==============================================================
 
 
 
@@ -795,7 +799,36 @@ export default class BaiduTrace {
 
 
 
-
+    /**
+     删除Entity终端实体的回调方法
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onDeleteEntity(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onDeleteEntity, result => {
+                callback(result)
+            })
+    }
+    /**
+     更新Entity终端实体的回调方法
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onUpdateEntity(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onUpdateEntity, result => {
+                callback(result)
+            })
+    }
+    /**
+     查询Entity终端实体的回调方法
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onQueryEntity(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onQueryEntity, result => {
+                callback(result)
+            })
+    }
     /**
      关键字检索Entity终端实体的回调方法
      @param {Function} cb = (Object）=> {{"response":data}
