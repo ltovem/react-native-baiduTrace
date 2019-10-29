@@ -17,6 +17,9 @@
 #define _onAnalyzeDrivingBehaviour @"onAnalyzeDrivingBehaviour" //驾驶行为分析
 #define _onAnalyzeStayPoint @"onAnalyzeStayPoint" //停留点分析
 #define _onQueryTrackDistance @"onQueryTrackDistance"//里程计算
+
+#define _onEntitySearch @"onEntitySearch"//关键字检索Entity终端实体的回调方法
+#define _onEntityBoundSearch @"onEntityBoundSearch"//矩形区域检索Entity终端实体的回调方法
 #define _onEntityDistrictSearch @"onEntityDistrictSearch" //行政区域内检索Entity终端实体的回调方法
 #define _onEntityPolygonSearch @"onEntityPolygonSearch"//多边形区域检索Entity终端实体的回调方法
 #define _onEntityAroundSearch @"onEntityAroundSearch" //圆形区域检索Entity终端实体的回调方法
@@ -1187,7 +1190,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
  @param response 检索结果
  */
 -(void)onEntitySearch:(NSData *)response{
-    
+    [self sendEventWithEvent:_onEntitySearch data:response];
 }
 
 /**
@@ -1196,7 +1199,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
  @param response 检索结果
  */
 -(void)onEntityBoundSearch:(NSData *)response{
-    
+    [self sendEventWithEvent:_onEntityBoundSearch data:response];
 }
 
 /**
@@ -1245,7 +1248,7 @@ RCT_EXPORT_METHOD(analyzeDrivingBehaviour:(NSString *)entityName
 //事件处理
 - (NSArray<NSString *> *)supportedEvents
 {
-    return @[_onStartServer,_onStopService,_onStartGather,_onStopGather,_onGetCustomDataResult,_onChangeGatherAndPackIntervals,_onSetCacheMaxSize,_onGetPushMessage,_onAnalyzeStayPoint,_onAnalyzeStayPoint,_onQueryTrackDistance,_onEntityDistrictSearch,_onEntityPolygonSearch,_onEntityAroundSearch];
+    return @[_onStartServer,_onStopService,_onStartGather,_onStopGather,_onGetCustomDataResult,_onChangeGatherAndPackIntervals,_onSetCacheMaxSize,_onGetPushMessage,_onAnalyzeStayPoint,_onAnalyzeStayPoint,_onQueryTrackDistance,_onEntityDistrictSearch,_onEntityPolygonSearch,_onEntityAroundSearch,_onEntityBoundSearch,_onEntitySearch];
 }
 @end
   

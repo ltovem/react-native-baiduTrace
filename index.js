@@ -25,9 +25,12 @@ const onAnalyzeDrivingBehaviour = "onAnalyzeDrivingBehaviour";// 驾驶行为分
 const onAnalyzeStayPoint = "onAnalyzeStayPoint" //停留点分析
 
 const onEntityDistrictSearch = "onEntityDistrictSearch" //行政区域内检索Entity终端实体的回调方法
-const onEntityPolygonSearch = "onEntityPolygonSearch" //多边形区域检索Entity终端实体的回调方法
-const onEntityAroundSearch = "onEntityAroundSearch" //圆形区域检索Entity终端实体的回调方法
 
+
+const onEntitySearch = "onEntitySearch"//关键字检索Entity终端实体的回调方法
+const onEntityBoundSearch = "onEntityBoundSearch"//矩形区域检索Entity终端实体的回调方法
+const onEntityAroundSearch = "onEntityAroundSearch" //圆形区域检索Entity终端实体的回调方法
+const onEntityPolygonSearch = "onEntityPolygonSearch" //多边形区域检索Entity终端实体的回调方法
 export const RNBaiduTrace = NativeModules.RNBaiduTrace
 /**
  * /**
@@ -784,6 +787,35 @@ export default class BaiduTrace {
     }
 
 
+
+
+
+
+
+
+
+
+
+    /**
+     关键字检索Entity终端实体的回调方法
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onEntitySearch(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onEntitySearch, result => {
+                callback(result)
+            })
+    }
+    /**
+     矩形区域检索Entity终端实体的回调方法
+     @param {Function} cb = (Object）=> {{"response":data}
+     */
+    static onEntityBoundSearch(callback){
+        listeners[callback] = DeviceEventEmitter.addListener(
+            onEntityBoundSearch, result => {
+                callback(result)
+            })
+    }
     /**
      圆形区域检索Entity终端实体的回调方法
      @param {Function} cb = (Object）=> {{"response":data}
